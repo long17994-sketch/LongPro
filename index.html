@@ -1432,6 +1432,7 @@
             let allOrdersList = [];
             let totalAllOrders = 0;
             let totalAllAmount = 0;
+            let globalEntryCounter = 0; // Đếm thứ tự nhập toàn hệ thống từ cũ đến mới
 
             document.querySelectorAll('tbody tr:not(.group-header)').forEach(row => {
                 let name = row.querySelector('.col-name').innerText.trim();
@@ -1442,20 +1443,21 @@
                 let detOrdStr = row.querySelector('.val-detail-order') ? row.querySelector('.val-detail-order').value : "";
                 let orders = JSON.parse(ordersStr ? ordersStr.value : "[]");
 
-                // Bóc tách tất cả các ngày xuất hiện trong lịch sử đơn [DD/MM]
+                // Bóc tách ngày từ log [DD/MM] nếu có
                 let foundDays = [];
                 let regex = /\[(\d{1,2})\/(\d{1,2})\]/g;
                 let match;
                 while ((match = regex.exec(detOrdStr)) !== null) {
-                    foundDays.push(parseInt(match[1], 10)); // Ép thành số nguyên (VD: "05" -> 5)
+                    foundDays.push(parseInt(match[1], 10));
                 }
 
                 orders.forEach((o, idx) => {
                     totalAllOrders++;
                     totalAllAmount += (o.v || 0);
+                    globalEntryCounter++;
 
-                    // Xác định ngày của đơn: ưu tiên dayNum có sẵn, nếu không lấy theo log text
-                    let assignedDay = null;
+                    // Xác định ngày: nếu không có ngày cũ thì gom toàn bộ vào ngày 5
+                    let assignedDay = 5; 
                     if (o.dayNum) {
                         assignedDay = parseInt(o.dayNum, 10);
                     } else if (o.d) {
@@ -1463,12 +1465,10 @@
                         assignedDay = parseInt(parts[0], 10);
                     } else if (foundDays[idx] !== undefined) {
                         assignedDay = foundDays[idx];
-                    } else if (foundDays.length > 0) {
-                        // Nếu số lượng log ít hơn số thẻ, gán vào ngày gần nhất tìm thấy
-                        assignedDay = foundDays[foundDays.length - 1];
                     }
 
                     allOrdersList.push({
+                        orderIndex: globalEntryCounter, // Thứ tự nhập từ cũ đến mới
                         storeName: name,
                         val: o.v || 0,
                         lines: o.l || 0,
@@ -1491,6 +1491,9 @@
                 filtered = allOrdersList.filter(item => item.dayNum === targetDay);
             }
 
+            // SẮP XẾP: Từ đơn nhập sớm nhất (cũ nhất) đến đơn nhập mới nhất
+            filtered.sort((a, b) => a.orderIndex - b.orderIndex);
+
             let filteredAmount = filtered.reduce((sum, item) => sum + item.val, 0);
 
             const labelEl = document.getElementById('order-stat-selected-label');
@@ -1504,10 +1507,13 @@
                 if (filtered.length === 0) {
                     listEl.innerHTML = `<div class="text-[11px] text-slate-500 text-center py-3 italic">Không có đơn hàng nào trong ngày này</div>`;
                 } else {
-                    listEl.innerHTML = filtered.map(item => `
+                    listEl.innerHTML = filtered.map((item, seq) => `
                         <div class="flex justify-between items-center bg-[#151c2c] px-2.5 py-1.5 rounded-xl border border-slate-800 text-[11px] mb-1.5">
-                            <span class="font-bold text-white truncate max-w-[140px]">${item.storeName}</span>
-                            <span class="font-black text-emerald-400">${formatMoneyBadge(item.val)}đ <span class="text-slate-500 font-bold">(${item.lines}L)</span></span>
+                            <div class="flex items-center gap-2 truncate max-w-[150px]">
+                                <span class="text-[9px] font-black text-slate-500 bg-[#0b0f19] px-1.5 py-0.5 rounded">#${seq + 1}</span>
+                                <span class="font-bold text-white truncate">${item.storeName}</span>
+                            </div>
+                            <span class="font-black text-emerald-400 shrink-0">${formatMoneyBadge(item.val)}đ <span class="text-slate-500 font-bold">(${item.lines}L)</span></span>
                         </div>
                     `).join('');
                 }
