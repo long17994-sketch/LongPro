@@ -152,6 +152,25 @@
         </div>
 
         <!-- THẺ KPI TỔNG QUÁT -->
+        <div class="glass-card rounded-[24px] p-4 relative overflow-hidden min-w-[180px] md:min-w-0 md:col-span-2 snap-start shrink-0 flex flex-col justify-between border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+                <i class="fas fa-money-bill-wave absolute -bottom-4 -right-2 text-6xl text-emerald-500 opacity-10 pointer-events-none"></i>
+                <div class="flex justify-between items-center mb-2 relative z-10 gap-2">
+                    <h3 class="text-[11px] font-black text-emerald-400 uppercase tracking-widest whitespace-nowrap">Doanh Thu</h3>
+                    <div class="flex items-center bg-[#0b0f19] rounded-lg px-2 py-1.5 shadow-inner border border-emerald-500/30 w-full max-w-[140px]">
+                        <span class="text-[10px] text-emerald-500/70 mr-1 font-black">T:</span>
+                        <input type="text" id="target-rev-input" class="w-full text-right font-black text-emerald-400 bg-transparent border-none p-0 outline-none text-[13px]" value="0" placeholder="0đ" onkeyup="this.value=formatCurrencyInput(this.value); calculateKPI(); saveTargets()">
+                    </div>
+                </div>
+                <div class="flex items-end justify-between relative z-10 mt-1">
+                    <div class="flex items-end gap-1.5">
+                        <div class="text-[26px] font-black text-white leading-none" id="total-revenue">0</div>
+                        <div class="text-[13px] font-black text-emerald-500 mb-1">đ</div>
+                    </div>
+                    <!-- BIỂU TƯỢNG PHẦN TRĂM DOANH THU MỚI -->
+                    <div class="text-[20px] font-black text-emerald-400 leading-none drop-shadow-[0_0_8px_rgba(16,185,129,0.6)]" id="pct-rev">0%</div>
+                </div>
+                <div class="w-full bg-[#0b0f19] rounded-full h-1.5 mt-3 overflow-hidden"><div id="bar-rev" class="bg-emerald-500 h-1.5 rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]" style="width: 0%"></div></div>
+            </div>
         <div class="flex overflow-x-auto hide-scrollbar gap-3 pb-2 pt-1 snap-x md:grid md:grid-cols-4 lg:grid-cols-9 md:gap-4 md:overflow-visible sticky top-0 z-40 bg-[#0b0f19] p-1.5 rounded-2xl md:static md:p-0 md:bg-transparent">
             <div class="glass-card rounded-[24px] p-4 relative overflow-hidden min-w-[160px] md:min-w-0 md:col-span-1 snap-start shrink-0 flex flex-col justify-between">
                 <h3 class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1 relative z-10">Tổng CH</h3>
@@ -1200,6 +1219,10 @@
             document.getElementById('count-yellow').innerText = `${yellow}/${tYellow}`; document.getElementById('bar-yellow').style.width = tYellow > 0 ? Math.min(100, (yellow/tYellow)*100)+'%' : '0%'; document.getElementById('pct-yellow').innerText = (tYellow > 0 ? Math.round((yellow/tYellow)*100) : 0)+'%';
             document.getElementById('count-pcon').innerText = `${pcon}/${tPcon}`; document.getElementById('bar-pcon').style.width = tPcon > 0 ? Math.min(100, (pcon/tPcon)*100)+'%' : '0%'; document.getElementById('pct-pcon').innerText = (tPcon > 0 ? Math.round((pcon/tPcon)*100) : 0)+'%';
             document.getElementById('count-pc4').innerText = `${pc4}/${tPc4}`; document.getElementById('bar-pc4').style.width = tPc4 > 0 ? Math.min(100, (pc4/tPc4)*100)+'%' : '0%'; document.getElementById('pct-pc4').innerText = (tPc4 > 0 ? Math.round((pc4/tPc4)*100) : 0)+'%';
+            // Cập nhật phần trăm và thanh chạy Doanh thu
+            let pctRevVal = tRev > 0 ? Math.round((rev / tRev) * 100) : 0;
+            const pctRevEl = document.getElementById('pct-rev');
+            if (pctRevEl) pctRevEl.innerText = pctRevVal + '%';
             document.getElementById('bar-rev').style.width = tRev > 0 ? Math.min(100, (rev/tRev)*100)+'%' : '0%';
             
             let finalGlobalLppc = globalCountLppcOrders > 0 ? (globalSumLppcLines / globalCountLppcOrders).toFixed(1) : "0.0"; 
@@ -1224,6 +1247,46 @@
             document.getElementById('salary-total').innerText = formatCurrencyInput((base+tb).toString());
         }
 
+        window.calcSalary = function() {
+            // ... các dòng tính lương cũ nằm ở đây ...
+            document.getElementById('salary-total').innerText = formatCurrencyInput((base+tb).toString());
+        }
+
+        // ==============================================================
+        // DÁN VÀO ĐÂY: HÀM TỰ ĐỘNG TÍNH SỐ NGÀY LÀM VIỆC (TRỪ CHỦ NHẬT)
+        // ==============================================================
+        function getAutoRemainingDays() {
+            let today = new Date();
+            let year = today.getFullYear();
+            let month = today.getMonth(); // 0 - 11
+            let currentDate = today.getDate();
+            
+            // Ngày cuối cùng của tháng
+            let lastDayOfMonth = new Date(year, month + 1, 0).getDate();
+            
+            let remainingWorkDays = 0;
+            // Đếm từ ngày hiện tại đến ngày cuối cùng của tháng
+            for (let d = currentDate; d <= lastDayOfMonth; d++) {
+                let checkDate = new Date(year, month, d);
+                // getDay() === 0 là Chủ Nhật -> Bỏ qua
+                if (checkDate.getDay() !== 0) {
+                    remainingWorkDays++;
+                }
+            }
+            return Math.max(1, remainingWorkDays);
+        }
+
+        function updateRemainingDaysAuto() {
+            const daysInput = document.getElementById('remaining-days-input');
+            if (daysInput) {
+                daysInput.value = getAutoRemainingDays();
+            }
+        }
+        // ==============================================================
+
+        window.renderTargetBoard = function() {
+            let daysInput = document.getElementById('remaining-days-input');
+            // ... phần bên dưới giữ nguyên ...
         window.renderTargetBoard = function() {
             let daysInput = document.getElementById('remaining-days-input'); let days = parseInt(daysInput ? daysInput.value : 1) || 1;
             const tgts = [ {n:'Doanh Thu', t:getMoneyValue(document.getElementById('target-rev-input').value), a:currentKPIs.totalRevenue, c:'#10b981', m:true}, {n:'ASO ALL', t:parseFloat(document.getElementById('target-aso-input').value)||0, a:currentKPIs.countAso, c:'#22d3ee'}, {n:'Trận Xanh', t:parseFloat(document.getElementById('target-green-input').value)||0, a:currentKPIs.countGreen, c:'#4ade80'}, {n:'Trận Vàng', t:parseFloat(document.getElementById('target-yellow-input').value)||0, a:currentKPIs.countYellow, c:'#facc15'}, {n:'PC ON', t:parseFloat(document.getElementById('target-pcon-input').value)||0, a:currentKPIs.countPcOn, c:'#60a5fa'}, {n:'PC 4L (OFF)', t:parseFloat(document.getElementById('target-pc4-input').value)||0, a:currentKPIs.countPc4, c:'#c084fc'} ];
@@ -1521,9 +1584,10 @@
         };
 
         // Tự động khởi tạo và tính toán mỗi khi mở Menu 3 gạch
-        const originalToggleSidebar = window.toggleSidebar;
+    const originalToggleSidebar = window.toggleSidebar;
         window.toggleSidebar = function() {
             originalToggleSidebar();
+            updateRemainingDaysAuto(); // Tự tính lại ngày làm việc mỗi khi mở menu
             initOrderStatDaysGrid();
             renderOrderStats();
         }
