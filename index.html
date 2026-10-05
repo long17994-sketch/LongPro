@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KPI anh Long Pro - V79 Perfect Fixed</title>
+    <title>KPI anh Long Pro - V80 Perfect Fixed</title>
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Firebase SDKs -->
@@ -33,12 +33,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f19; color: #ffffff; -webkit-text-size-adjust: 100%; touch-action: pan-x pan-y; overflow-x: hidden; scroll-behavior: smooth; }
-        .electric-slogan { font-family: 'Arial Black', Impact, sans-serif; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 0.1em; color: transparent; -webkit-text-stroke: 1.5px #ffffff; position: relative; display: inline-block; filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 8px #7dd3fc) drop-shadow(0 0 15px #0ea5e9); animation: electric-shake 0.1s infinite; }
-        .electric-slogan::before, .electric-slogan::after { content: attr(data-text); position: absolute; top: 0; left: 0; color: transparent; -webkit-text-stroke: 1.5px #bae6fd; z-index: -1; opacity: 0.8; }
-        .electric-slogan::before { animation: electric-glitch-1 0.2s infinite alternate-reverse; } .electric-slogan::after { animation: electric-glitch-2 0.15s infinite alternate; }
-        @keyframes electric-shake { 0% { transform: translate(1px, 1px); } 100% { transform: translate(-1px, -1px); } }
-        @keyframes electric-glitch-1 { 0% { clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%); transform: translate(-2px, 1px); } 20% { clip-path: polygon(0 40%, 100% 40%, 100% 50%, 0 50%); transform: translate(2px, -2px); } 40% { clip-path: polygon(0 70%, 100% 70%, 100% 80%, 0 80%); transform: translate(-1px, 2px); } 60% { clip-path: polygon(0 25%, 100% 25%, 100% 35%, 0 35%); transform: translate(3px, -1px); } 80% { clip-path: polygon(0 85%, 100% 85%, 100% 95%, 0 95%); transform: translate(-3px, 1px); } 100% { clip-path: polygon(0 50%, 100% 50%, 100% 60%, 0 60%); transform: translate(1px, 2px); } }
-        @keyframes electric-glitch-2 { 0% { clip-path: polygon(0 15%, 100% 15%, 100% 25%, 0 25%); transform: translate(2px, -1px); } 20% { clip-path: polygon(0 55%, 100% 55%, 100% 65%, 0 65%); transform: translate(-2px, 2px); } 40% { clip-path: polygon(0 30%, 100% 30%, 100% 40%, 0 40%); transform: translate(1px, -2px); } 60% { clip-path: polygon(0 75%, 100% 75%, 100% 85%, 0 85%); transform: translate(-3px, 1px); } 80% { clip-path: polygon(0 5%, 100% 5%, 100% 15%, 0 15%); transform: translate(3px, -1px); } 100% { clip-path: polygon(0 60%, 100% 60%, 100% 70%, 0 70%); transform: translate(-1px, -2px); } }
         .glass-card { background: #151c2c; border: 1px solid #334155; box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
         .table-container { max-height: calc(100vh - 280px); overflow-y: auto; scroll-behavior: smooth; }
         thead th { position: sticky; top: 0; z-index: 10; background-color: #0b0f19; color: #94a3b8; border-bottom: 1px solid #334155; }
@@ -64,13 +58,7 @@
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         .slide-up-modal { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         
-        #mobile-jump-menu { display: none; position: fixed; right: 8px; top: 50%; transform: translateY(-50%); z-index: 90; flex-direction: column; gap: 6px; }
-        .jump-btn { width: 42px; height: 42px; border-radius: 12px; background: rgba(11, 15, 25, 0.85); border: 1px solid #334155; color: #94a3b8; font-weight: 900; font-size: 12px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.2s; cursor: pointer; }
-        .jump-btn:active { transform: scale(0.9); }
-        .jump-btn.active { background: #2563eb; color: #fff; border-color: #3b82f6; box-shadow: 0 0 15px rgba(37,99,235,0.6); }
-
         @media (max-width: 768px) {
-            #mobile-jump-menu { display: flex; }
             .table-container { max-height: none !important; overflow: visible !important; scroll-margin-top: 130px; }
             .table-wrapper-card { background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; }
             table, thead, tbody, th, tr { display: block; width: 100%; }
@@ -105,11 +93,13 @@
 </head>
 <body class="p-3 md:p-6 pb-[160px] md:pb-6 relative transition-colors duration-300">
 
+    <!-- NÚT 3 GẠCH CỐ ĐỊNH TRÊN MOBILE (LUÔN NẰM TRÊN GÓC PHẢI) -->
+    <button onclick="hapticVibrate(); toggleSidebar()" class="md:hidden fixed top-3 right-3 z-[60] w-12 h-12 rounded-[18px] bg-[#151c2c]/90 backdrop-blur-md border border-slate-700 text-slate-200 flex items-center justify-center text-xl shadow-[0_4px_20px_rgba(0,0,0,0.6)] active:scale-90 transition"><i class="fas fa-bars"></i></button>
+
     <div class="max-w-[1600px] mx-auto space-y-4 md:space-y-6">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div class="flex items-center justify-between w-full md:w-auto">
                 <div class="flex items-center gap-4">
-                    <!-- CHẠM 5 LẦN ĐỂ MỞ KHO TRÀ BÍ MẬT -->
                     <h1 id="app-main-title" onclick="handleTitleClick()" class="text-[26px] md:text-3xl font-black tracking-wide text-white cursor-pointer select-none drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">KPI LONG PRO</h1>
                     
                     <div onclick="showSyncStatusPopup()" class="cursor-pointer relative group flex items-center justify-center w-10 h-10 rounded-full bg-[#151c2c] border border-slate-700 shadow-[0_0_10px_rgba(0,0,0,0.5)] active:scale-95 transition" id="sync-status-icon">
@@ -117,7 +107,6 @@
                         <span class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-yellow-400 animate-pulse border-2 border-[#151c2c]" id="sync-dot"></span>
                     </div>
                 </div>
-                <button onclick="hapticVibrate(); toggleSidebar()" class="md:hidden fixed top-3 right-3 z-[60] w-12 h-12 rounded-[18px] bg-[#151c2c]/90 backdrop-blur-md border border-slate-700 text-slate-200 flex items-center justify-center text-xl shadow-[0_4px_20px_rgba(0,0,0,0.6)] active:scale-90 transition"><i class="fas fa-bars"></i></button>
             </div>
             
             <div class="hidden md:flex flex-row items-center gap-3 w-auto">
@@ -130,7 +119,11 @@
                         <option value="all">Tất cả Tuyến</option><option value="T2">Thứ 2</option><option value="T3">Thứ 3</option><option value="T4">Thứ 4</option><option value="T5">Thứ 5</option><option value="T6">Thứ 6</option><option value="T7">Thứ 7</option><option value="CN">Chủ nhật</option>
                     </select>
                     <select id="filter-select" onchange="syncFilter('desktop')" class="bg-[#151c2c] border border-slate-700 text-white rounded-xl outline-none p-2.5 focus:border-blue-500 cursor-pointer min-w-[130px] text-sm font-bold">
-                        <option value="all">Tình trạng</option><option value="order">📦 Có Đơn</option><option value="expired">⚠️ Hết Date</option><option value="note">📝 Có Ghi Chú</option>
+                        <option value="all">Tình trạng</option>
+                        <option value="order">📦 Có Đơn</option>
+                        <option value="no-order">❌ Chưa Đơn</option>
+                        <option value="expired">⚠️ Hết Date</option>
+                        <option value="note">📝 Có Ghi Chú</option>
                     </select>
                 </div>
                 <div class="flex gap-2">
@@ -145,8 +138,8 @@
             <button onclick="hapticVibrate(); exitArchiveView()" class="w-full md:w-auto bg-yellow-500 text-black px-5 py-3 rounded-xl shadow-[0_0_15px_rgba(234,179,8,0.4)] font-black active:scale-95 transition"><i class="fas fa-arrow-left mr-2"></i>Quay Lại Bảng Hiện Tại</button>
         </div>
 
-        <!-- THẺ KPI TỔNG QUÁT -->
-        <div class="flex overflow-x-auto hide-scrollbar gap-3 pb-2 pt-1 snap-x md:grid md:grid-cols-4 lg:grid-cols-9 md:gap-4 md:overflow-visible p-1.5 rounded-2xl md:grid md:p-0 bg-transparent">
+        <!-- THẺ KPI TỔNG QUÁT (ĐÃ BỎ STICKY ĐỂ CUỘN TRƠN TRU) -->
+        <div class="flex overflow-x-auto hide-scrollbar gap-3 pb-2 pt-1 snap-x md:grid md:grid-cols-4 lg:grid-cols-9 md:gap-4 md:overflow-visible p-1.5 rounded-2xl md:p-0 bg-transparent">
             <div class="glass-card rounded-[24px] p-4 relative overflow-hidden min-w-[160px] md:min-w-0 md:col-span-1 snap-start shrink-0 flex flex-col justify-between">
                 <h3 class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1 relative z-10">Tổng CH</h3>
                 <div>
@@ -316,7 +309,7 @@
         </div>
     </div>
 
-    <!-- BOTTOM BAR CHIẾN ĐẤU MOBILE -->
+    <!-- BOTTOM BAR MOBILE -->
     <div id="mobile-bottom-bar" class="md:hidden fixed bottom-0 left-0 right-0 bg-[#0b0f19]/95 border-t-2 border-slate-800 z-[100] p-4 pt-3 pb-6 flex flex-col gap-3 backdrop-blur-xl">
         <div class="flex gap-2 w-full mb-1">
             <div class="relative flex-1">
@@ -327,7 +320,11 @@
                 <option value="all">Tất cả</option><option value="T2">T2</option><option value="T3">T3</option><option value="T4">T4</option><option value="T5">T5</option><option value="T6">T6</option><option value="T7">T7</option><option value="CN">CN</option>
             </select>
             <select id="mobile-filter-select" onchange="syncFilter('mobile')" class="bg-[#151c2c] border border-slate-700 text-white rounded-xl outline-none p-3 focus:border-blue-500 cursor-pointer text-[13px] font-black w-[85px] text-center">
-                <option value="all">Lọc</option><option value="order">📦 Đơn</option><option value="expired">⚠️ Date</option><option value="note">📝 Note</option>
+                <option value="all">Lọc</option>
+                <option value="order">📦 Đơn</option>
+                <option value="no-order">❌ Chưa</option>
+                <option value="expired">⚠️ Date</option>
+                <option value="note">📝 Note</option>
             </select>
         </div>
         <div class="grid grid-cols-2 gap-3">
@@ -589,145 +586,10 @@
         </div>
     </div>
 
-    <!-- HỆ THỐNG JS HOÀN CHỈNH V79 -->
+    <!-- HỆ THỐNG JS HOÀN CHỈNH V80 -->
     <script>
-        const backupStores = [
-            ["Tạp Hoá Cô Hồng", "25/15, Võ Ngóc Dung, P. Linh Xuân", "T4"],
-            ["Xe Nước Mía Cô Liên", "21, Đường 17, P. Linh Xuân", "T3"],
-            ["Cơm Tấm Cô An", "170, Đường 17, P. Linh Xuân", "T4"],
-            ["Giặt Sấy Ngọc Mai", "64/15, Võ Ngóc Dung, P. Linh Xuân", "T4"],
-            ["Cà Phê Pha Máy Cô Ba", "29, Đỗ Mười, P. Linh Xuân", "T6"],
-            ["Câm Hồng", "18/53, Tổ 8, P. Linh Xuân", "T6"],
-            ["Nguyệt Hồng", "17/19 tổ 7, KP6, P. Linh Xuân", "T7"],
-            ["An Béo", "18/102, Trục Chính 10, P. Linh Xuân", "T6"],
-            ["Nhà Ăn Đại Học Quốc Tế", "Lầu 2 tòa A1, Đại Học Quốc Tế, P. Linh Xuân", "T5"],
-            ["Đại Học Công nghệ Thông Tin", "Gần Trường ĐH CNTT, ĐHQG TP.HCM, P. Linh Xuân", "T6"],
-            ["Cơm Gà Khang Ký", "227, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Nước Mía Siêu Sạch", "1 Hẻm 64, Đường Số 16, P. Linh Xuân", "T3"],
-            ["Coffee Ngộ", "76/2A, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Nhà Kimy", "Kiot 22, Đại Học Nông Lâm, P. Linh Xuân", "T7"],
-            ["Lẩu Chay - Xưa", "Kiot 32, Đại Học Nông Lâm, P. Linh Xuân", "T7"],
-            ["Dừa Si Và Lê", "47, Đường Số 17, P. Linh Xuân", "T4"],
-            ["Quán Cơm Bình Dân 16", "60, Đường Số 16, P. Linh Xuân", "T4"],
-            ["H.U.I Coffee & Tea", "217 Lê Văn Chí, Phường Linh Trung, Linh Xuân", "T2"],
-            ["Coffee Thu", "Bến Xe Buýt ĐH Nông Lâm, Quốc Lộ 1A, P. Linh Xuân", "T6"],
-            ["Tiệm Giặt Sấy Ong Vàng", "18/105, Tổ 8, Khu Phố 6, P. Linh Xuân", "T6"],
-            ["Bún Riêu Cua", "179, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Coffee Mochi", "219/8, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Quán Nước Cô Hồi", "65A, Đường Số 18, Khu Phố 5, P. Linh Xuân", "T7"],
-            ["Tạp hoá Nghĩa", "100, Đường 17, P. Linh Xuân", "T7"],
-            ["Dịch Vụ Giặt Sấy", "224, Đường Số 4, P. Linh Xuân", "T7"],
-            ["Cà Phê Tây Nguyên", "117, Đường Số 4, P. Linh Xuân", "T6"],
-            ["Cô Năm", "Kiot 24, Đường Số 1, P. Linh Xuân", "T6"],
-            ["Quán Bé Bơ", "KP6, Làng ĐH, P. Linh Xuân", "T6"],
-            ["Quán Boy Ú", "Ga Metro ĐHQG, Xa Lộ Hà Nội, P. Linh Xuân", "T7"],
-            ["The Bang", "Công B - ĐH Công Nghệ Thông Tin, Làng ĐH, P. Linh Xuân", "T7"],
-            ["Cơm Ngô Quyền", "KP6, Làng ĐH, P. Linh Xuân", "T6"],
-            ["Cơm Green", "KP6, Làng ĐH, P. Linh Xuân", "T6"],
-            ["Tôm Quán", "16/23, Làng Đại Học, P. Linh Xuân", "T6"],
-            ["Quán Chí Béo", "KP6, Làng ĐH, P. Linh Xuân", "T6"],
-            ["Bánh Cuốn Thảo Vy", "KP6, Làng ĐH, P. Linh Xuân", "T6"],
-            ["Lẩu Bò 5 Thìn", "KP6, Làng ĐH, P. Linh Xuân", "T6"],
-            ["Quán Minh Thư", "18/95, Làng ĐH, P. Linh Xuân", "T6"],
-            ["Xe Nước Thu Lanh", "170, Đ.số 17, P. Linh Xuân", "T4"],
-            ["Bún Bò - Mì Quảng", "136, Đ.số 17, P. Linh Xuân", "T4"],
-            ["Quán Mì Âu 26K", "136, Đ.số 17, P. Linh Xuân", "T4"],
-            ["Xe Nước Chị Hạnh", "21, Đ.số 18, P. Linh Xuân", "T5"],
-            ["Xôi Hai Chàng Trai", "39A, Đ.số 18, P. Linh Xuân", "T5"],
-            ["Cà Phê Gấu Võng", "76, Đ.số 16, P. Linh Xuân", "T3"],
-            ["Quán Cô An", "170, Đ.số 17, P. Linh Xuân", "T3"],
-            ["Quán An", "37, Đ.số 17, P. Linh Xuân", "T3"],
-            ["Cà Phê Hà Trinh", "1, Đ.số 17, P. Linh Xuân", "T3"],
-            ["Cà Phê - Bánh Cuốn", "183, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Nem Tư Hoàng", "237, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Lẩu Tôm Suối Nhum", "11, Đường Vận Hành Suối Nhum, P. Linh Xuân", "T2"],
-            ["Món Ăn Phú Yên", "78, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Quán Ăn Thảo Sài Gòn", "Đối diện 18/13A, Làng ĐH, P. Linh Xuân", "T6"],
-            ["Cơm Quang Ngân", "25, Đ.số 17, P. Linh Xuân", "T3"],
-            ["Cà Phê - Hủ Tiếu Chị Bảy", "100, Đ.số 16, P. Linh Xuân", "T3"],
-            ["Tạp Hoá 257", "27B, QL1A, P. Linh Xuân", "T5"],
-            ["Tạp Hoá 76/56", "76/56, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Tạp Hoá 25/10", "25/10, Đ.số 17, P. Linh Xuân", "T3"],
-            ["Tạp Hoá 105/47", "105/47, KP6, Làng ĐH, P. Linh Xuân", "T7"],
-            ["Tạp Hoá Kim Lê", "20/43, KP6, Làng ĐH, P. Linh Xuân", "T4"],
-            ["Tạp Hoá Thanh", "Cổng B ĐH Công Nghệ Thông Tin, Làng ĐH, P. Linh Xuân", "T4"],
-            ["Tạp Hoá Cô Mai", "9/103, Kp6, Làng ĐH, P. Linh Xuân", "T7"],
-            ["Tạp Hoá 225", "225, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Chị Cúc", "98, Lê Văn Chí, P. Linh Xuân", "T6"],
-            ["Tạp Hoá Nông Lâm", "Đối diện 226, Đ.số 4 - ĐH Nông Lâm, P. Linh Xuân", "T5"],
-            ["Tạp Hoá Chị Yến", "60, Đ.số 17, P. Linh Xuân", "T3"],
-            ["Tạp Hoá Chị Xuân", "18/152, KP6, Làng Đại Học, P. Linh Xuân", "T6"],
-            ["Tạp Hoá 25", "25/1A, Đ.số 17, P. Linh Xuân", "T3"],
-            ["Tạp Hoá Nhi", "18/95, Tổ 8, KP6, Làng Đại Học, P. Linh Xuân", "T6"],
-            ["Tạp Hoá 12A", "120, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Tạp Hoá Tiến", "18/9 KP6, Làng Đại Học, P. Linh Xuân", "T7"],
-            ["Tạp Hoá Nhất Phú Quý", "39A, Đ.số 17, P. Linh Xuân", "T3"],
-            ["Tạp Hoá Hưng Yên", "225, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Tạp Hoá Minh Nhàn", "181A, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Tạp Hoá 76", "76/12, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Tạp Hoá 116", "116, Đường Số 17, P. Linh Xuân", "T4"],
-            ["Nhà Ăn Nhà Điều Hành", "Nhà Điều Hành, KP6, Làng ĐH, P. Linh Xuân", "T6"],
-            ["Tạp Hóa Duy Anh", "44c, Đ.số 16, P. Linh Xuân", "T3"],
-            ["Cửa Hàng Tiện Lợi", "ĐH KHXHNV, KP6, Làng Đại Học, P. Linh Xuân", "T6"],
-            ["Thu Hiền", "17/18, Làng Đại Học, P. Linh Xuân", "T7"],
-            ["Chị Thắm", "1B, Đường 17, P. Linh Xuân", "T4"],
-            ["Hồng Duyên", "18/29, Làng Đại Học, P. Linh Xuân", "T6"],
-            ["Chị Tuyền", "64, Đường 16, P. Linh Xuân", "T3"],
-            ["Bích Chi", "44c, Đường 16, P. Linh Xuân", "T3"],
-            ["Cơm Ngọc Giàu", "94, Đ.số 18, P. Linh Xuân", "T5"],
-            ["Chị Yến", "60, Đường 17, P. Linh Xuân", "T3"],
-            ["Cà Phê Pha Máy", "15/66D, Xa Lộ Hà Nội, P. Linh Xuân", "T6"],
-            ["Thiên Thanh", "82, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Cửa Hàng Tiện Lợi 71", "71, Đường 18, P. Linh Xuân", "T5"],
-            ["Chị Hạnh", "85b, Đường 18, P. Linh Xuân", "T5"],
-            ["Cà Phê Cam Vắt", "23, Đ.số 17, P. Linh Xuân", "T3"],
-            ["Cà Phê Ông Già", "221, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Tạp Hóa Lê Hiền", "64, Đường Số 17, P. Linh Xuân", "T3"],
-            ["Xe Nước Chị Ngàn", "Trước 88/47, Xa Lộ Hà Nội, P. Linh Xuân", "T7"],
-            ["Xe Nước Chị Xuân", "Trước KM18, Xa Lộ Hà Nội, P. Linh Xuân", "T7"],
-            ["Xe Nước Cô Tuyết", "Trước KTX Cỏ Mây, Đ.số 4, P. Linh Xuân", "T5"],
-            ["Hủ Tiếu 76", "46, Đ.số 16, P. Linh Xuân", "T3"],
-            ["Cà Phê Đào", "Trước Cổng ĐH Nông Lâm, QL1A, P. Linh Xuân", "T5"],
-            ["Cháo Gói Vịt Cô Loan", "39, Đ.Số 17, P. Linh Xuân", "T3"],
-            ["Nhà Ăn Thể Dục Thể Thao", "Khu Phố 6, Làng Đại Học, P. Linh Xuân", "T4"],
-            ["Tạp Hóa Tâm Diệu", "Trước KTX Cỏ May, Đường 4 - ĐH Nông Lâm, P. Linh Xuân", "T5"],
-            ["Quán Cơm Nga", "1050, Quốc Lộ 1A, P. Linh Xuân", "T6"],
-            ["Lẩu Cay Tâm Diệu", "Đối Diện 76, số 16, P. Linh Xuân", "T3"],
-            ["Quán Sport", "Kế Căn Tin 630, Khu Phố 6, Làng Đại Học, P. Linh Xuân", "T7"],
-            ["Cơm Hoàng Vân", "58C, Số 17, P. Linh Xuân", "T3"],
-            ["Quán Nước Chị Ý", "950, Quốc Lộ 1A, P. Linh Xuân", "T4"],
-            ["Tạp Hóa Chị Phương", "Kế 59/6 Cơ Giới Anh Tài, QL1A, P. Linh Xuân", "T4"],
-            ["Tạp Hóa Bi Bi", "78, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Quế Thảo", "47, 17, P. Linh Xuân", "T4"],
-            ["Xe Nước Cô Tư", "76/2G, Đường Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["G-Net Phúc Loan", "Kiot Số 6, Đường 1 - Đại Học Nông Lâm, P. Linh Xuân", "T5"],
-            ["Tạp Hóa Bin Bin", "96, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Gia Huy", "31, Đường 17, P. Linh Xuân", "T3"],
-            ["Tạp Hóa Hưng Thịnh", "203, Đường 4 Đại Học Nông Lâm, P. Linh Xuân", "T5"],
-            ["Cô Xinh", "18/104, Làng Đại Học, P. Linh Xuân", "T6"],
-            ["Tạp Hóa 38", "38, Đường 18, P. Linh Xuân", "T5"],
-            ["Cô Thu", "180, Đường 17, P. Linh Xuân", "T4"],
-            ["Chị Cúc", "18/92, Đại Học Quốc Gia (Hẻm Cô Nhung), P. Linh Xuân", "T6"],
-            ["Quán Ăn Chị Phượng", "Bến Xe Bus Đại Học Nông Lâm, Đường 1, P. Linh Xuân", "T5"],
-            ["Cà Phê Boy", "30, Quốc Lộ 1A, P. Linh Xuân", "T6"],
-            ["Chị Thoa", "205, Lê Văn Chí, P. Linh Xuân", "T2"],
-            ["Cà Phê Bin Bin", "986, Quốc Lộ 1A, P. Linh Xuân", "T4"],
-            ["Yến Nhi", "190, Đường 17, P. Linh Xuân", "T4"],
-            ["Anh Quân", "51/4, Đường 18, P. Linh Xuân", "T5"],
-            ["Quốc Đạt", "28, Đường 18, P. Linh Xuân", "T5"],
-            ["Chị Hương", "45, Đường 18, P. Linh Xuân", "T5"],
-            ["Anh Tiền", "18/27, Đại Học, P. Linh Xuân", "T4"],
-            ["Cô Thanh", "101, Đường 4 Đại Học Nông Lâm, P. Linh Xuân", "T5"],
-            ["Chị Mai", "65, Đường 18, P. Linh Xuân", "T5"],
-            ["Chị Dung", "2, Đường 18, P. Linh Xuân", "T5"],
-            ["Ngọc Huy", "108, Đường 4 Đại Học Nông Lâm, P. Linh Xuân", "T2"],
-            ["Chị Huệ", "178, Đường 17, P. Linh Xuân", "T4"],
-            ["Anh Đông", "17/15, Làng Đại Học, P. Linh Xuân", "T4"],
-            ["Chị Ngọc", "24/1, Đường 17, P. Linh Xuân", "T3"],
-            ["Tạp Hóa Sơn Hương", "69, Đường 18, P. Linh Xuân", "T5"],
-            ["Bách Hóa Tổng Hợp", "58, Đường 16, P. Linh Xuân", "T3"],
-            ["Yến Nhi", "118, Đường 17, P. Linh Xuân", "T4"]
-        ];
+        // Rút gọn hoàn toàn: Đọc trực tiếp từ Firebase Realtime Database
+        const backupStores = [];
 
         const tbodyOn = document.getElementById('tbody-on'), tbodyOff = document.getElementById('tbody-off'), tbodyEmpty = document.getElementById('tbody-empty'), scrollArea = document.getElementById('scroll-area');
         
@@ -859,9 +721,6 @@
                 const tbodyId = headerId.replace('header-', 'tbody-'); const tbody = document.getElementById(tbodyId);
                 if (tbody.classList.contains('hidden-tbody')) toggleGroup(tbodyId, element);
                 element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                document.querySelectorAll('.jump-btn').forEach(btn => btn.classList.remove('active'));
-                if(headerId === 'header-off') document.getElementById('btn-jump-off').classList.add('active');
-                if(headerId === 'header-on') document.getElementById('btn-jump-on').classList.add('active');
             }
         }
 
@@ -881,7 +740,6 @@
 
         window.scrollToTop = function() {
             window.scrollTo({ top: 0, behavior: 'smooth' }); document.getElementById('scroll-area').scrollTo({ top: 0, behavior: 'smooth' });
-            document.querySelectorAll('.jump-btn').forEach(btn => btn.classList.remove('active'));
         }
 
         function handleScroll() {
@@ -959,15 +817,6 @@
                         return !isPlaceholder;
                     });
                     
-                    if (cleanedData.length === 0) {
-                        cleanedData = backupStores.map(d => ({
-                            name: d[0], address: d[1], day: d[2], time: "", freq: "F4", 
-                            type: (d[0].match(/Quán|Cơm|Xe|Cà phê|Coffee|Nhà Ăn|Lẩu|Giặt|Nước|Bún|Nem|Cháo|Hủ tiếu|Căn tin/i) ? "ON" : "OFF"),
-                            green: false, yellow: false, detailOrder: "", detailExpired: "", detailNote: "", orders: []
-                        }));
-                        setTimeout(() => { pushToFirebase(); }, 1500);
-                    }
-                    
                     activeDataCache = cleanedData; 
                     activeTargetsCache = sd.targets;
                     
@@ -977,16 +826,6 @@
                         calculateKPI();
                         if(navigator.onLine) updateSyncStatus('success', 'Đã đồng bộ Cloud');
                     }
-                } else {
-                    let fallbackList = backupStores.map(d => ({
-                        name: d[0], address: d[1], day: d[2], time: "", freq: "F4", 
-                        type: (d[0].match(/Quán|Cơm|Xe|Cà phê|Coffee|Nhà Ăn|Lẩu|Giặt|Nước|Bún|Nem|Cháo|Hủ tiếu|Căn tin/i) ? "ON" : "OFF"),
-                        green: false, yellow: false, detailOrder: "", detailExpired: "", detailNote: "", orders: []
-                    }));
-                    activeDataCache = fallbackList;
-                    renderTable(fallbackList); 
-                    calculateKPI();
-                    setTimeout(() => { pushToFirebase(); }, 2000);
                 }
             });
             onValue(ref(db, 'kpi_history_longpro'), (snapshot) => { globalHistoryData = snapshot.val() || {}; renderHistoryList(); });
@@ -1384,6 +1223,7 @@
                 let matchesText = nameStr.includes(input) || addressStr.includes(input);
                 let matchesType = true;
                 if (filterType === "order") matchesType = (orders.length > 0);
+                if (filterType === "no-order") matchesType = (orders.length === 0);
                 if (filterType === "expired") matchesType = (expVal !== "");
                 if (filterType === "note") matchesType = (noteVal !== "");
                 let matchesDay = (day === 'all' || dayVal === day);
@@ -1474,7 +1314,7 @@
             let totalAllAmount = 0;
             let globalEntryCounter = 0;
 
-            document.querySelectorAll('tbody tr:not(.group-header)').forEach(row => {
+            document.querySelectorAll('tbody tr:not(.group-header)').forEach((row, rowIndex) => {
                 let name = row.querySelector('.col-name').innerText.trim();
                 let isPlaceholder = name === "" || name.includes("CH Chưa Đặt Tên") || name.includes("CH Mới");
                 if (isPlaceholder) return;
@@ -1511,7 +1351,9 @@
                         val: o.v || 0,
                         lines: o.l || 0,
                         xx: o.xx || 0,
-                        dayNum: assignedDay
+                        dayNum: assignedDay,
+                        rowIndex: rowIndex,
+                        orderIdxInStore: idx
                     });
                 });
             });
@@ -1544,14 +1386,40 @@
                 } else {
                     listEl.innerHTML = filtered.map((item, seq) => `
                         <div class="flex justify-between items-center bg-[#151c2c] px-2.5 py-1.5 rounded-xl border border-slate-800 text-[11px] mb-1.5">
-                            <div class="flex items-center gap-2 truncate max-w-[150px]">
+                            <div class="flex items-center gap-2 truncate max-w-[130px]">
                                 <span class="text-[9px] font-black text-slate-500 bg-[#0b0f19] px-1.5 py-0.5 rounded">#${seq + 1}</span>
                                 <span class="font-bold text-white truncate">${item.storeName}</span>
                             </div>
-                            <span class="font-black text-emerald-400 shrink-0">${formatMoneyBadge(item.val)}đ <span class="text-slate-500 font-bold">(${item.lines}L)</span></span>
+                            <div class="flex items-center gap-2">
+                                <span class="font-black text-emerald-400 shrink-0">${formatMoneyBadge(item.val)}đ <span class="text-slate-500 font-bold">(${item.lines}L)</span></span>
+                                <button type="button" onclick="quickDeleteOrderFromSidebar(${item.rowIndex}, ${item.orderIdxInStore})" class="text-red-400 opacity-60 hover:opacity-100 p-1 active:scale-90 transition" title="Xóa đơn này"><i class="fas fa-trash-alt text-[10px]"></i></button>
+                            </div>
                         </div>
                     `).join('');
                 }
+            }
+        };
+
+        window.quickDeleteOrderFromSidebar = function(rowIndex, orderIdx) {
+            hapticVibrate();
+            if (!confirm("Bạn có chắc chắn muốn xóa đơn hàng này?")) return;
+            
+            const rows = document.querySelectorAll('tbody tr:not(.group-header)');
+            const targetRow = rows[rowIndex];
+            if (!targetRow) return;
+
+            let ordersStr = targetRow.querySelector('.val-detail-orders');
+            let orders = JSON.parse(ordersStr ? ordersStr.value : "[]");
+
+            if (orders[orderIdx] !== undefined) {
+                orders.splice(orderIdx, 1);
+                ordersStr.value = JSON.stringify(orders);
+
+                markLocalEdit();
+                updateBadgesHtml(targetRow);
+                calculateKPI();
+                pushToFirebase();
+                renderOrderStats();
             }
         };
     </script>
