@@ -1295,9 +1295,47 @@
             calculateKPI();
         }
 
-        document.querySelector('.table-container').addEventListener('click', (e) => { const tr = e.target.closest('tr'); if(tr && !tr.classList.contains('group-header') && !tr.closest('thead')) { document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('bg-slate-800/40')); tr.classList.add('bg-slate-800/40'); } });
-        document.querySelector('.table-container').addEventListener('input', (e) => { if (!isViewingArchive && e.target.matches('[contenteditable]')) { markLocalEdit(); calculateKPI(); pushToFirebase(); } });
-        document.querySelector('.table-container').addEventListener('change', (e) => { if (!isViewingArchive && e.target.matches('input[type="checkbox"]')) { hapticVibrate(); calculateKPI(); pushToFirebase(); } });
+// Bắt sự kiện click chọn dòng (Chặn nổi bọt khi click trúng checkbox hoặc nút)
+        document.querySelector('.table-container').addEventListener('click', (e) => { 
+            if (e.target.closest('input[type="checkbox"]') || e.target.closest('button') || e.target.closest('select') || e.target.isContentEditable) {
+                return;
+            }
+            const tr = e.target.closest('tr'); 
+            if(tr && !tr.classList.contains('group-header') && !tr.closest('thead')) { 
+                document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('bg-slate-800/40')); 
+                tr.classList.add('bg-slate-800/40'); 
+            } 
+        });
+
+        document.querySelector('.table-container').addEventListener('input', (e) => { 
+            if (!isViewingArchive && e.target.matches('[contenteditable]')) { 
+                markLocalEdit(); 
+                calculateKPI(); 
+                pushToFirebase(); 
+            } 
+        });
+
+        // Bắt sự kiện checkbox: Cố định vị trí cuộn màn hình & cuộn bảng, chỉ cập nhật số liệu chứ KHÔNG sắp xếp lại dòng
+        document.querySelector('.table-container').addEventListener('change', (e) => { 
+            if (!isViewingArchive && e.target.matches('input[type="checkbox"]')) { 
+                hapticVibrate(); 
+                
+                // Lưu lại vị trí cuộn hiện tại của cả trang và bảng
+                const scrollPosWindow = window.scrollY;
+                const scrollContainer = document.getElementById('scroll-area');
+                const scrollPosTable = scrollContainer ? scrollContainer.scrollTop : 0;
+                
+                markLocalEdit();
+                calculateKPI(); 
+                pushToFirebase(); 
+
+                // Giữ nguyên vị trí cuộn, ngăn giật nhảy bảng
+                requestAnimationFrame(() => {
+                    window.scrollTo({ top: scrollPosWindow, behavior: 'instant' });
+                    if (scrollContainer) scrollContainer.scrollTop = scrollPosTable;
+                });
+            } 
+        });
     </script>
 </body>
 </html>
