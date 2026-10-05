@@ -1442,16 +1442,30 @@
                 let detOrdStr = row.querySelector('.val-detail-order') ? row.querySelector('.val-detail-order').value : "";
                 let orders = JSON.parse(ordersStr ? ordersStr.value : "[]");
 
-                // Đọc ngày từ ghi chú [DD/MM] cho cả đơn cũ chưa có thuộc tính d
-                let dateMatches = [...detOrdStr.matchAll(/\[(\d{1,2})\/(\d{1,2})\]/g)];
+                // Bóc tách tất cả các ngày xuất hiện trong lịch sử đơn [DD/MM]
+                let foundDays = [];
+                let regex = /\[(\d{1,2})\/(\d{1,2})\]/g;
+                let match;
+                while ((match = regex.exec(detOrdStr)) !== null) {
+                    foundDays.push(parseInt(match[1], 10)); // Ép thành số nguyên (VD: "05" -> 5)
+                }
 
                 orders.forEach((o, idx) => {
                     totalAllOrders++;
                     totalAllAmount += (o.v || 0);
 
-                    let assignedDay = o.dayNum;
-                    if (!assignedDay && dateMatches[idx]) {
-                        assignedDay = parseInt(dateMatches[idx][1]); // Lấy ngày từ [DD/MM]
+                    // Xác định ngày của đơn: ưu tiên dayNum có sẵn, nếu không lấy theo log text
+                    let assignedDay = null;
+                    if (o.dayNum) {
+                        assignedDay = parseInt(o.dayNum, 10);
+                    } else if (o.d) {
+                        let parts = o.d.split('/');
+                        assignedDay = parseInt(parts[0], 10);
+                    } else if (foundDays[idx] !== undefined) {
+                        assignedDay = foundDays[idx];
+                    } else if (foundDays.length > 0) {
+                        // Nếu số lượng log ít hơn số thẻ, gán vào ngày gần nhất tìm thấy
+                        assignedDay = foundDays[foundDays.length - 1];
                     }
 
                     allOrdersList.push({
@@ -1459,7 +1473,7 @@
                         val: o.v || 0,
                         lines: o.l || 0,
                         xx: o.xx || 0,
-                        dayNum: assignedDay || null
+                        dayNum: assignedDay
                     });
                 });
             });
@@ -1473,7 +1487,8 @@
             // Lọc theo ngày đang chọn
             let filtered = allOrdersList;
             if (selectedStatDay !== 'all') {
-                filtered = allOrdersList.filter(item => item.dayNum === parseInt(selectedStatDay));
+                let targetDay = parseInt(selectedStatDay, 10);
+                filtered = allOrdersList.filter(item => item.dayNum === targetDay);
             }
 
             let filteredAmount = filtered.reduce((sum, item) => sum + item.val, 0);
@@ -1487,17 +1502,17 @@
 
             if (listEl) {
                 if (filtered.length === 0) {
-                    listEl.innerHTML = `<div class="text-[11px] text-slate-500 text-center py-3 italic">Không có đơn hàng nào</div>`;
+                    listEl.innerHTML = `<div class="text-[11px] text-slate-500 text-center py-3 italic">Không có đơn hàng nào trong ngày này</div>`;
                 } else {
                     listEl.innerHTML = filtered.map(item => `
-                        <div class="flex justify-between items-center bg-[#151c2c] px-2.5 py-1.5 rounded-xl border border-slate-800 text-[11px]">
+                        <div class="flex justify-between items-center bg-[#151c2c] px-2.5 py-1.5 rounded-xl border border-slate-800 text-[11px] mb-1.5">
                             <span class="font-bold text-white truncate max-w-[140px]">${item.storeName}</span>
                             <span class="font-black text-emerald-400">${formatMoneyBadge(item.val)}đ <span class="text-slate-500 font-bold">(${item.lines}L)</span></span>
                         </div>
                     `).join('');
                 }
             }
-        }
+        };
 
         // Tự động khởi tạo và tính toán mỗi khi mở Menu 3 gạch
         const originalToggleSidebar = window.toggleSidebar;
