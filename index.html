@@ -356,6 +356,49 @@
                 <button onclick="toggleSidebar()" class="w-10 h-10 rounded-full bg-[#151c2c] border border-slate-700 text-slate-400 flex items-center justify-center"><i class="fas fa-times text-xl"></i></button>
             </div>
 
+            <!-- BẢNG THỐNG KÊ ĐƠN HÀNG THEO NGÀY CỐ ĐỊNH (1 - 31) -->
+            <div class="bg-[#151c2c] rounded-3xl p-5 border border-slate-700 shadow-inner">
+                <div class="flex justify-between items-center mb-4 border-b border-slate-700 pb-3">
+                    <h3 class="text-[15px] font-black text-white flex items-center tracking-widest uppercase">
+                        <i class="fas fa-boxes text-teal-400 mr-2.5 drop-shadow-[0_0_8px_rgba(45,212,191,0.5)]"></i>Thống Kê Đơn Hàng
+                    </h3>
+                    <span class="text-[10px] font-black bg-teal-500/20 text-teal-300 border border-teal-500/30 px-2 py-0.5 rounded-lg" id="order-stat-badge-month">Tháng Này</span>
+                </div>
+
+                <!-- Tổng quan tất cả đơn -->
+                <div class="grid grid-cols-2 gap-2 mb-4">
+                    <div class="bg-[#0b0f19] border border-slate-700 rounded-2xl p-3 text-center">
+                        <div class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Tổng số đơn</div>
+                        <div class="text-2xl font-black text-teal-400 leading-tight mt-1" id="order-stat-total-count">0</div>
+                    </div>
+                    <div class="bg-[#0b0f19] border border-slate-700 rounded-2xl p-3 text-center">
+                        <div class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Tổng giá trị</div>
+                        <div class="text-[15px] font-black text-emerald-400 leading-tight mt-2 truncate" id="order-stat-total-amount">0 đ</div>
+                    </div>
+                </div>
+
+                <!-- Chọn ngày (1 - 31) -->
+                <div class="mb-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Chọn ngày xem:</label>
+                        <button type="button" onclick="hapticVibrate(); selectOrderStatDay('all')" id="btn-day-all" class="text-[10px] font-black px-2 py-0.5 rounded-md bg-teal-500 text-black">Tất cả</button>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1.5 p-2 bg-[#0b0f19] rounded-2xl border border-slate-700 max-h-[150px] overflow-y-auto hide-scrollbar" id="order-stat-days-grid">
+                        <!-- Tạo tự động 31 nút ngày bằng JS -->
+                    </div>
+                </div>
+
+                <!-- Kết quả theo ngày chọn -->
+                <div class="bg-[#0b0f19] border border-teal-500/30 rounded-2xl p-3 mt-3">
+                    <div class="flex justify-between items-center text-[11px] font-black pb-2 border-b border-slate-800">
+                        <span class="text-slate-400" id="order-stat-selected-label">Đang xem: Tất cả</span>
+                        <span class="text-teal-300" id="order-stat-day-summary">0 đơn | 0 đ</span>
+                    </div>
+                    <div class="mt-2 space-y-1.5 max-h-[140px] overflow-y-auto pr-1 hide-scrollbar" id="order-stat-list">
+                        <!-- Danh sách chi tiết các đơn của ngày -->
+                    </div>
+                </div>
+            </div>
             <div class="bg-[#151c2c] rounded-3xl p-5 border border-slate-700 shadow-inner">
                 <div class="flex justify-between items-center mb-5 border-b border-slate-700 pb-4">
                     <h3 class="text-[15px] font-black text-white flex items-center tracking-widest uppercase"><i class="fas fa-bullseye text-indigo-500 mr-3 drop-shadow-[0_0_10px_rgba(99,102,241,0.8)]"></i>Mục Tiêu / Ngày</h3>
@@ -365,7 +408,7 @@
                     <input type="number" id="remaining-days-input" oninput="calculateKPI(); saveTargets()" class="w-16 h-12 text-center font-black text-[22px] text-indigo-400 bg-[#151c2c] border border-indigo-500/50 rounded-xl outline-none" value="1" min="1">
                 </div>
                 <div class="space-y-4" id="target-board-list"></div>
-            </div>
+            </div>   
 
             <div class="bg-[#151c2c] rounded-3xl p-5 border border-slate-700 shadow-inner">
                 <div class="flex items-center mb-4 border-b border-slate-700 pb-3">
@@ -850,13 +893,22 @@
         }
         window.addEventListener('scroll', handleScroll); document.getElementById('scroll-area').addEventListener('scroll', handleScroll);
 
-        window.addOrderTag = function() {
-            let valInput = document.getElementById('modal-order-value'); let lineInput = document.getElementById('modal-order-lines'); let sausageInput = document.getElementById('modal-order-sausage'); let noteInput = document.getElementById('modal-detail-order');
+     window.addOrderTag = function() {
+            let valInput = document.getElementById('modal-order-value'); 
+            let lineInput = document.getElementById('modal-order-lines'); 
+            let sausageInput = document.getElementById('modal-order-sausage'); 
+            let noteInput = document.getElementById('modal-detail-order');
             let val = getMoneyValue(valInput.value), lines = parseInt(lineInput.value) || 0, sausage = parseInt(sausageInput.value) || 0;
             if(sausage > lines) { alert("Xúc xích không được lớn hơn Tổng số Line!"); return; }
             if(val > 0 && lines > 0) {
-                hapticVibrate(); activeOrders.push({ v: val, l: lines, xx: sausage });
-                let dateStr = new Date().toLocaleDateString('vi-VN', {day:'2-digit', month:'2-digit'});
+                hapticVibrate(); 
+                let today = new Date();
+                let dayNum = today.getDate(); // Ngày 1 - 31
+                let dateStr = today.toLocaleDateString('vi-VN', {day:'2-digit', month:'2-digit'});
+                
+                // Tự động lưu kèm ngày thực tế vào đơn hàng
+                activeOrders.push({ v: val, l: lines, xx: sausage, d: dateStr, dayNum: dayNum });
+                
                 let sausageNote = sausage > 0 ? ` 🌭-${sausage}` : ``;
                 let newNote = `[${dateStr}] +${formatCurrencyInput(val.toString())}đ (${lines}L${sausageNote})`;
                 noteInput.value = noteInput.value ? noteInput.value + '\n' + newNote : newNote; autoExpand(noteInput);
@@ -1336,6 +1388,124 @@
                 });
             } 
         });
+    // ==========================================
+        // LÕI THỐNG KÊ ĐƠN THEO NGÀY CỐ ĐỊNH (1 - 31)
+        // ==========================================
+        let selectedStatDay = 'all';
+
+        function initOrderStatDaysGrid() {
+            const grid = document.getElementById('order-stat-days-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            const todayNum = new Date().getDate();
+
+            for (let day = 1; day <= 31; day++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.id = `btn-stat-day-${day}`;
+                btn.className = `py-1 rounded-lg text-[11px] font-black transition border ${day === todayNum ? 'border-amber-400 text-amber-300' : 'border-slate-800 text-slate-400'} bg-[#151c2c] hover:border-teal-500`;
+                btn.innerText = day;
+                btn.onclick = () => { hapticVibrate(); selectOrderStatDay(day); };
+                grid.appendChild(btn);
+            }
+        }
+
+        window.selectOrderStatDay = function(day) {
+            selectedStatDay = day;
+            document.querySelectorAll('#order-stat-days-grid button').forEach(b => {
+                b.classList.remove('!bg-teal-500', '!text-black', '!border-teal-400');
+            });
+            const btnAll = document.getElementById('btn-day-all');
+            if (btnAll) {
+                if (day === 'all') {
+                    btnAll.className = 'text-[10px] font-black px-2 py-0.5 rounded-md bg-teal-500 text-black';
+                } else {
+                    btnAll.className = 'text-[10px] font-black px-2 py-0.5 rounded-md bg-[#0b0f19] border border-slate-700 text-slate-400';
+                    const activeBtn = document.getElementById(`btn-stat-day-${day}`);
+                    if (activeBtn) activeBtn.classList.add('!bg-teal-500', '!text-black', '!border-teal-400');
+                }
+            }
+            renderOrderStats();
+        }
+
+        window.renderOrderStats = function() {
+            let allOrdersList = [];
+            let totalAllOrders = 0;
+            let totalAllAmount = 0;
+
+            document.querySelectorAll('tbody tr:not(.group-header)').forEach(row => {
+                let name = row.querySelector('.col-name').innerText.trim();
+                let isPlaceholder = name === "" || name.includes("CH Chưa Đặt Tên") || name.includes("CH Mới");
+                if (isPlaceholder) return;
+
+                let ordersStr = row.querySelector('.val-detail-orders');
+                let detOrdStr = row.querySelector('.val-detail-order') ? row.querySelector('.val-detail-order').value : "";
+                let orders = JSON.parse(ordersStr ? ordersStr.value : "[]");
+
+                // Đọc ngày từ ghi chú [DD/MM] cho cả đơn cũ chưa có thuộc tính d
+                let dateMatches = [...detOrdStr.matchAll(/\[(\d{1,2})\/(\d{1,2})\]/g)];
+
+                orders.forEach((o, idx) => {
+                    totalAllOrders++;
+                    totalAllAmount += (o.v || 0);
+
+                    let assignedDay = o.dayNum;
+                    if (!assignedDay && dateMatches[idx]) {
+                        assignedDay = parseInt(dateMatches[idx][1]); // Lấy ngày từ [DD/MM]
+                    }
+
+                    allOrdersList.push({
+                        storeName: name,
+                        val: o.v || 0,
+                        lines: o.l || 0,
+                        xx: o.xx || 0,
+                        dayNum: assignedDay || null
+                    });
+                });
+            });
+
+            // Cập nhật tổng số đơn và tổng tiền
+            const countEl = document.getElementById('order-stat-total-count');
+            const amtEl = document.getElementById('order-stat-total-amount');
+            if (countEl) countEl.innerText = totalAllOrders;
+            if (amtEl) amtEl.innerText = formatCurrencyInput(totalAllAmount.toString()) + ' đ';
+
+            // Lọc theo ngày đang chọn
+            let filtered = allOrdersList;
+            if (selectedStatDay !== 'all') {
+                filtered = allOrdersList.filter(item => item.dayNum === parseInt(selectedStatDay));
+            }
+
+            let filteredAmount = filtered.reduce((sum, item) => sum + item.val, 0);
+
+            const labelEl = document.getElementById('order-stat-selected-label');
+            const summaryEl = document.getElementById('order-stat-day-summary');
+            const listEl = document.getElementById('order-stat-list');
+
+            if (labelEl) labelEl.innerText = selectedStatDay === 'all' ? 'Đang xem: Tất cả' : `Ngày ${selectedStatDay}`;
+            if (summaryEl) summaryEl.innerText = `${filtered.length} đơn | ${formatMoneyBadge(filteredAmount)}đ`;
+
+            if (listEl) {
+                if (filtered.length === 0) {
+                    listEl.innerHTML = `<div class="text-[11px] text-slate-500 text-center py-3 italic">Không có đơn hàng nào</div>`;
+                } else {
+                    listEl.innerHTML = filtered.map(item => `
+                        <div class="flex justify-between items-center bg-[#151c2c] px-2.5 py-1.5 rounded-xl border border-slate-800 text-[11px]">
+                            <span class="font-bold text-white truncate max-w-[140px]">${item.storeName}</span>
+                            <span class="font-black text-emerald-400">${formatMoneyBadge(item.val)}đ <span class="text-slate-500 font-bold">(${item.lines}L)</span></span>
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+
+        // Tự động khởi tạo và tính toán mỗi khi mở Menu 3 gạch
+        const originalToggleSidebar = window.toggleSidebar;
+        window.toggleSidebar = function() {
+            originalToggleSidebar();
+            initOrderStatDaysGrid();
+            renderOrderStats();
+        }
     </script>
 </body>
 </html>
