@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KPI anh Long Pro - V77 Restore</title>
+    <title>KPI anh Long Pro - V79 Perfect Fixed</title>
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Firebase SDKs -->
@@ -152,25 +152,6 @@
         </div>
 
         <!-- THẺ KPI TỔNG QUÁT -->
-        <div class="glass-card rounded-[24px] p-4 relative overflow-hidden min-w-[180px] md:min-w-0 md:col-span-2 snap-start shrink-0 flex flex-col justify-between border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-                <i class="fas fa-money-bill-wave absolute -bottom-4 -right-2 text-6xl text-emerald-500 opacity-10 pointer-events-none"></i>
-                <div class="flex justify-between items-center mb-2 relative z-10 gap-2">
-                    <h3 class="text-[11px] font-black text-emerald-400 uppercase tracking-widest whitespace-nowrap">Doanh Thu</h3>
-                    <div class="flex items-center bg-[#0b0f19] rounded-lg px-2 py-1.5 shadow-inner border border-emerald-500/30 w-full max-w-[140px]">
-                        <span class="text-[10px] text-emerald-500/70 mr-1 font-black">T:</span>
-                        <input type="text" id="target-rev-input" class="w-full text-right font-black text-emerald-400 bg-transparent border-none p-0 outline-none text-[13px]" value="0" placeholder="0đ" onkeyup="this.value=formatCurrencyInput(this.value); calculateKPI(); saveTargets()">
-                    </div>
-                </div>
-                <div class="flex items-end justify-between relative z-10 mt-1">
-                    <div class="flex items-end gap-1.5">
-                        <div class="text-[26px] font-black text-white leading-none" id="total-revenue">0</div>
-                        <div class="text-[13px] font-black text-emerald-500 mb-1">đ</div>
-                    </div>
-                    <!-- BIỂU TƯỢNG PHẦN TRĂM DOANH THU MỚI -->
-                    <div class="text-[20px] font-black text-emerald-400 leading-none drop-shadow-[0_0_8px_rgba(16,185,129,0.6)]" id="pct-rev">0%</div>
-                </div>
-                <div class="w-full bg-[#0b0f19] rounded-full h-1.5 mt-3 overflow-hidden"><div id="bar-rev" class="bg-emerald-500 h-1.5 rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]" style="width: 0%"></div></div>
-            </div>
         <div class="flex overflow-x-auto hide-scrollbar gap-3 pb-2 pt-1 snap-x md:grid md:grid-cols-4 lg:grid-cols-9 md:gap-4 md:overflow-visible sticky top-0 z-40 bg-[#0b0f19] p-1.5 rounded-2xl md:static md:p-0 md:bg-transparent">
             <div class="glass-card rounded-[24px] p-4 relative overflow-hidden min-w-[160px] md:min-w-0 md:col-span-1 snap-start shrink-0 flex flex-col justify-between">
                 <h3 class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1 relative z-10">Tổng CH</h3>
@@ -189,9 +170,12 @@
                         <input type="text" id="target-rev-input" class="w-full text-right font-black text-emerald-400 bg-transparent border-none p-0 outline-none text-[13px]" value="0" placeholder="0đ" onkeyup="this.value=formatCurrencyInput(this.value); calculateKPI(); saveTargets()">
                     </div>
                 </div>
-                <div class="flex items-end gap-1.5 relative z-10 mt-1">
-                    <div class="text-[26px] font-black text-white leading-none" id="total-revenue">0</div>
-                    <div class="text-[13px] font-black text-emerald-500 mb-1">đ</div>
+                <div class="flex items-end justify-between relative z-10 mt-1">
+                    <div class="flex items-end gap-1.5">
+                        <div class="text-[26px] font-black text-white leading-none" id="total-revenue">0</div>
+                        <div class="text-[13px] font-black text-emerald-500 mb-1">đ</div>
+                    </div>
+                    <div class="text-[20px] font-black text-emerald-400 leading-none drop-shadow-[0_0_8px_rgba(16,185,129,0.6)]" id="pct-rev">0%</div>
                 </div>
                 <div class="w-full bg-[#0b0f19] rounded-full h-1.5 mt-3 overflow-hidden"><div id="bar-rev" class="bg-emerald-500 h-1.5 rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]" style="width: 0%"></div></div>
             </div>
@@ -320,7 +304,8 @@
                         <tr id="header-empty" class="group-header block md:table-row bg-slate-800/50 text-slate-400 border-b border-slate-700 backdrop-blur-xl cursor-pointer mt-6 md:mt-0 md:rounded-none rounded-t-2xl" onclick="hapticVibrate(); toggleGroup('tbody-empty', this)">
                             <td colspan="11" class="block md:table-cell py-4 md:py-3 px-5">
                                 <div class="flex items-center justify-between">
-                                    <div class="font-black text-[15px] tracking-widest uppercase"><i class="fas fa-list mr-2"></i>Chưa Phân Loại</div><i class="fas fa-chevron-up toggle-icon"></i>
+                                    <div class="font-black text-[15px] tracking-widest uppercase"><i class="fas fa-list mr-2"></i>Chưa Phân Loại</div>
+                                    <div class="flex items-center gap-3"><div class="bg-slate-700/50 text-slate-300 px-3 py-1 rounded-xl font-black border border-slate-600" id="count-group-empty">0 CH</div><i class="fas fa-chevron-up toggle-icon"></i></div>
                                 </div>
                             </td>
                         </tr>
@@ -384,7 +369,6 @@
                     <span class="text-[10px] font-black bg-teal-500/20 text-teal-300 border border-teal-500/30 px-2 py-0.5 rounded-lg" id="order-stat-badge-month">Tháng Này</span>
                 </div>
 
-                <!-- Tổng quan tất cả đơn -->
                 <div class="grid grid-cols-2 gap-2 mb-4">
                     <div class="bg-[#0b0f19] border border-slate-700 rounded-2xl p-3 text-center">
                         <div class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Tổng số đơn</div>
@@ -396,28 +380,23 @@
                     </div>
                 </div>
 
-                <!-- Chọn ngày (1 - 31) -->
                 <div class="mb-3">
                     <div class="flex justify-between items-center mb-2">
                         <label class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Chọn ngày xem:</label>
                         <button type="button" onclick="hapticVibrate(); selectOrderStatDay('all')" id="btn-day-all" class="text-[10px] font-black px-2 py-0.5 rounded-md bg-teal-500 text-black">Tất cả</button>
                     </div>
-                    <div class="grid grid-cols-7 gap-1.5 p-2 bg-[#0b0f19] rounded-2xl border border-slate-700 max-h-[150px] overflow-y-auto hide-scrollbar" id="order-stat-days-grid">
-                        <!-- Tạo tự động 31 nút ngày bằng JS -->
-                    </div>
+                    <div class="grid grid-cols-7 gap-1.5 p-2 bg-[#0b0f19] rounded-2xl border border-slate-700 max-h-[150px] overflow-y-auto hide-scrollbar" id="order-stat-days-grid"></div>
                 </div>
 
-                <!-- Kết quả theo ngày chọn -->
                 <div class="bg-[#0b0f19] border border-teal-500/30 rounded-2xl p-3 mt-3">
                     <div class="flex justify-between items-center text-[11px] font-black pb-2 border-b border-slate-800">
                         <span class="text-slate-400" id="order-stat-selected-label">Đang xem: Tất cả</span>
                         <span class="text-teal-300" id="order-stat-day-summary">0 đơn | 0 đ</span>
                     </div>
-                    <div class="mt-2 space-y-1.5 max-h-[140px] overflow-y-auto pr-1 hide-scrollbar" id="order-stat-list">
-                        <!-- Danh sách chi tiết các đơn của ngày -->
-                    </div>
+                    <div class="mt-2 space-y-1.5 max-h-[140px] overflow-y-auto pr-1 hide-scrollbar" id="order-stat-list"></div>
                 </div>
             </div>
+
             <div class="bg-[#151c2c] rounded-3xl p-5 border border-slate-700 shadow-inner">
                 <div class="flex justify-between items-center mb-5 border-b border-slate-700 pb-4">
                     <h3 class="text-[15px] font-black text-white flex items-center tracking-widest uppercase"><i class="fas fa-bullseye text-indigo-500 mr-3 drop-shadow-[0_0_10px_rgba(99,102,241,0.8)]"></i>Mục Tiêu / Ngày</h3>
@@ -427,7 +406,7 @@
                     <input type="number" id="remaining-days-input" oninput="calculateKPI(); saveTargets()" class="w-16 h-12 text-center font-black text-[22px] text-indigo-400 bg-[#151c2c] border border-indigo-500/50 rounded-xl outline-none" value="1" min="1">
                 </div>
                 <div class="space-y-4" id="target-board-list"></div>
-            </div>   
+            </div>
 
             <div class="bg-[#151c2c] rounded-3xl p-5 border border-slate-700 shadow-inner">
                 <div class="flex items-center mb-4 border-b border-slate-700 pb-3">
@@ -616,9 +595,8 @@
         </div>
     </div>
 
-    <!-- HỆ THỐNG JS HOÀN CHỈNH V77 - KHÔI PHỤC DỮ LIỆU TỰ ĐỘNG -->
+    <!-- HỆ THỐNG JS HOÀN CHỈNH V79 -->
     <script>
-        // BẢNG DỮ LIỆU DỰ PHÒNG CHUẨN 119 CỬA HÀNG (ĐẢM BẢO KHÔNG BAO GIỜ BỊ MẤT DỮ LIỆU)
         const backupStores = [
             ["Tạp Hoá Cô Hồng", "25/15, Võ Ngóc Dung, P. Linh Xuân", "T4"],
             ["Xe Nước Mía Cô Liên", "21, Đường 17, P. Linh Xuân", "T3"],
@@ -895,8 +873,16 @@
 
         window.toggleSidebar = function() {
             const sidebar = document.getElementById('sidebar-menu'); const overlay = document.getElementById('sidebar-overlay');
-            if(sidebar.classList.contains('translate-x-full')) { sidebar.classList.remove('translate-x-full'); overlay.classList.remove('hidden'); } 
-            else { sidebar.classList.add('translate-x-full'); overlay.classList.add('hidden'); }
+            if(sidebar.classList.contains('translate-x-full')) { 
+                sidebar.classList.remove('translate-x-full'); 
+                overlay.classList.remove('hidden'); 
+                if(typeof updateRemainingDaysAuto === 'function') updateRemainingDaysAuto();
+                if(typeof initOrderStatDaysGrid === 'function') initOrderStatDaysGrid();
+                if(typeof renderOrderStats === 'function') renderOrderStats();
+            } else { 
+                sidebar.classList.add('translate-x-full'); 
+                overlay.classList.add('hidden'); 
+            }
         }
 
         window.scrollToTop = function() {
@@ -912,7 +898,7 @@
         }
         window.addEventListener('scroll', handleScroll); document.getElementById('scroll-area').addEventListener('scroll', handleScroll);
 
-     window.addOrderTag = function() {
+        window.addOrderTag = function() {
             let valInput = document.getElementById('modal-order-value'); 
             let lineInput = document.getElementById('modal-order-lines'); 
             let sausageInput = document.getElementById('modal-order-sausage'); 
@@ -922,10 +908,9 @@
             if(val > 0 && lines > 0) {
                 hapticVibrate(); 
                 let today = new Date();
-                let dayNum = today.getDate(); // Ngày 1 - 31
+                let dayNum = today.getDate();
                 let dateStr = today.toLocaleDateString('vi-VN', {day:'2-digit', month:'2-digit'});
                 
-                // Tự động lưu kèm ngày thực tế vào đơn hàng
                 activeOrders.push({ v: val, l: lines, xx: sausage, d: dateStr, dayNum: dayNum });
                 
                 let sausageNote = sausage > 0 ? ` 🌭-${sausage}` : ``;
@@ -952,7 +937,11 @@
         window.removeOrderTag = function(index) { hapticVibrate(); activeOrders.splice(index, 1); renderOrderTags(); }
 
         window.manualSort = function() { hapticVibrate(); sortGroupsDirect(); }
-        window.syncSearch = function(val) { document.getElementById('search-input').value = val; document.getElementById('mobile-search-input').value = val; searchTable(); }
+        window.syncSearch = function(val) { 
+            const deskSearch = document.getElementById('search-input'), mobSearch = document.getElementById('mobile-search-input');
+            if(deskSearch) deskSearch.value = val; if(mobSearch) mobSearch.value = val; 
+            searchTable(); 
+        }
         window.syncFilter = function(source) {
             hapticVibrate();
             const mobType = document.getElementById('mobile-filter-select'), deskType = document.getElementById('filter-select');
@@ -971,13 +960,11 @@
             onValue(ref(db, 'kpidata_longpro'), (snapshot) => {
                 const sd = snapshot.val();
                 if (sd && sd.data && sd.data.length > 0) {
-                    // Lọc sạch hàng rác
                     let cleanedData = sd.data.filter(s => {
                         let isPlaceholder = s.name === "" || s.name.includes("CH Chưa Đặt Tên") || s.name.includes("CH Mới");
                         return !isPlaceholder;
                     });
                     
-                    // Nếu Firebase vô tình bị trắng trơn, tự động bốc 119 CH từ backup khôi phục lại
                     if (cleanedData.length === 0) {
                         cleanedData = backupStores.map(d => ({
                             name: d[0], address: d[1], day: d[2], time: "", freq: "F4", 
@@ -997,7 +984,6 @@
                         if(navigator.onLine) updateSyncStatus('success', 'Đã đồng bộ Cloud');
                     }
                 } else {
-                    // Chưa có data trên Firebase: Khởi tạo 119 CH gốc ngay
                     let fallbackList = backupStores.map(d => ({
                         name: d[0], address: d[1], day: d[2], time: "", freq: "F4", 
                         type: (d[0].match(/Quán|Cơm|Xe|Cà phê|Coffee|Nhà Ăn|Lẩu|Giặt|Nước|Bún|Nem|Cháo|Hủ tiếu|Căn tin/i) ? "ON" : "OFF"),
@@ -1076,8 +1062,14 @@
             if (isViewingArchive) return;
             if (activeRowForDetail) {
                 if(confirm("Xác nhận XÓA VĨNH VIỄN cửa hàng này khỏi hệ thống?")) {
-                    hapticVibrate(); activeRowForDetail.remove(); activeRowForDetail = null;
-                    markLocalEdit(); calculateKPI(); pushToFirebase(); closeStoreDetails();
+                    hapticVibrate(); 
+                    activeRowForDetail.remove(); 
+                    activeRowForDetail = null;
+                    markLocalEdit(); 
+                    window.updateRowNumbers();
+                    calculateKPI(); 
+                    pushToFirebase(); 
+                    closeStoreDetails();
                 }
             }
         }
@@ -1086,15 +1078,25 @@
             if (isViewingArchive) return; hapticVibrate();
             const tr = document.createElement('tr'); 
             tr.className = "block md:table-row bg-[#151c2c] hover:bg-[#1e293b] md:border-none border border-slate-700 md:rounded-none rounded-2xl p-4 mb-3 md:mb-0 transition-colors";
-            tr.innerHTML = `<td class="col-index hidden md:table-cell py-3 px-4 text-slate-500 font-bold"></td><td class="td-name md:table-cell px-4 pt-4 pb-2 md:py-3 cursor-pointer border-b border-dashed border-slate-700 md:border-none relative"><div class="flex items-start justify-between gap-2 w-full"><div class="flex-1 min-w-0 pr-2"><div class="col-name font-extrabold text-white text-[16px] md:text-lg" contenteditable="true" data-placeholder="Tên CH...">Cửa Hàng Mới</div><div class="badges-container flex flex-wrap gap-1 mt-1.5"></div></div><button type="button" onclick="openStoreDetails(this)" class="btn-detail shrink-0 w-11 h-11 rounded-2xl flex items-center justify-center transition font-bold bg-[#0b0f19] border border-slate-700 text-blue-400"><i class="fas fa-clipboard-list text-[17px]"></i></button></div><div class="hidden"><input type="hidden" class="val-detail-orders" value='[]'><textarea class="val-detail-order"></textarea><textarea class="val-detail-expired"></textarea><textarea class="val-detail-note"></textarea></div></td><td class="td-address md:table-cell px-4 pt-2 pb-4 md:py-3 cursor-pointer border-b border-slate-700 md:border-none bg-transparent"><div class="flex flex-col w-full"><div class="col-address text-slate-400 text-[13px] md:text-[14px] w-full leading-snug" contenteditable="true" data-placeholder="Nhập địa chỉ...">Địa chỉ...</div><div class="w-full mt-3"><div class="flex items-center bg-orange-950 border-2 border-orange-500/80 rounded-xl px-3 py-2 shadow-[0_0_12px_rgba(249,115,22,0.2)] flex-1"><i class="far fa-clock text-orange-400 text-[15px] mr-2"></i><input type="text" class="col-time w-full text-[14px] outline-none !bg-transparent !border-none text-orange-400 font-black placeholder-orange-700/50 p-0" value="" placeholder="Giờ giao..." onchange="markLocalEdit(); pushToFirebase()"></div></div></div></td><td class="td-tuyen md:table-cell justify-between items-center py-3 md:py-3 px-2 text-center border-b border-slate-700 md:border-none"><span class="mobile-label">Tuyến</span><select class="col-day appearance-none font-bold rounded-lg px-2 py-1 text-[13px] bg-[#0b0f19] text-white w-full border border-slate-700 outline-none text-center" onchange="markLocalEdit(); pushToFirebase()"><option value="T2">T2</option><option value="T3">T3</option><option value="T4">T4</option><option value="T5">T5</option><option value="T6">T6</option><option value="T7">T7</option><option value="CN">CN</option></select></td><td class="td-freq md:table-cell justify-between items-center py-3 md:py-3 px-2 text-center border-b border-slate-700 md:border-none"><span class="mobile-label">Tần Suất</span><select class="col-freq appearance-none font-bold rounded-lg px-2 py-1 text-[13px] bg-[#0b0f19] text-blue-400 w-full border border-slate-700 outline-none text-center" onchange="markLocalEdit(); pushToFirebase()"><option value="F2">F2</option><option value="F4" selected>F4</option><option value="F8">F8</option></select></td><td class="td-loai md:table-cell justify-between items-center py-3 md:py-3 px-2 text-center border-b border-slate-700 md:border-none"><span class="mobile-label">Phân Loại</span><select class="col-type appearance-none font-bold rounded-lg px-2 py-1 text-[13px] border outline-none w-full text-center bg-[#0b0f19] text-slate-400 border-slate-700" onchange="changeTypeColor(this)"><option value="OFF">OFF</option><option value="ON">ON</option></select></td><td class="td-lppc-wrapper md:table-cell justify-between items-center py-3 md:py-3 px-4 text-center border-b border-slate-700 md:border-none cursor-pointer" onclick="openStoreDetails(this)"><span class="mobile-label">LPPC</span><div class="col-lppc-display font-black bg-[#0b0f19] border border-slate-700 rounded-lg px-2 py-1.5 min-w-[3.5rem] w-full text-center text-[16px]">0.0</div></td><td class="td-don-wrapper md:table-cell justify-between items-center py-3 md:py-3 px-4 text-center border-b border-slate-700 md:border-none cursor-pointer" onclick="openStoreDetails(this)"><span class="mobile-label text-teal-400">Đơn Hàng</span><div class="col-order-display font-black bg-[#0b0f19] border border-slate-700 text-white rounded-lg px-2 py-1.5 min-w-[3.5rem] w-full text-center text-[16px]">0</div></td><td class="td-pc4-wrapper md:table-cell justify-between items-center py-3 md:py-3 px-4 text-center border-b border-slate-700 md:border-none cursor-pointer" onclick="openStoreDetails(this)"><span class="mobile-label text-purple-400">PC 4L</span><div class="col-pc4-display font-black bg-[#0b0f19] border border-slate-700 text-white rounded-lg px-2 py-1.5 min-w-[3.5rem] w-full text-center text-[16px]">0</div></td><td class="td-xanh md:table-cell justify-between items-center py-4 md:py-3 px-4 text-center bg-transparent border-b border-slate-700 md:border-none"><span class="mobile-label text-green-400">Xanh</span><input type="checkbox" class="col-green custom-checkbox cb-xanh scale-[1.1] md:scale-100 mx-auto"></td><td class="td-vang md:table-cell justify-between items-center py-4 md:py-3 px-4 text-center bg-transparent border-b border-slate-700 md:border-none"><span class="mobile-label text-yellow-400">Vàng</span><input type="checkbox" class="col-yellow custom-checkbox cb-vang scale-[1.1] md:scale-100 mx-auto"></td>`;
-            tbodyEmpty.appendChild(tr); markLocalEdit(); calculateKPI(); pushToFirebase();
+            tr.innerHTML = `<td class="col-index hidden md:table-cell py-3 px-4 text-slate-500 font-bold"></td><td class="td-name md:table-cell px-4 pt-4 pb-2 md:py-3 cursor-pointer border-b border-dashed border-slate-700 md:border-none relative"><div class="flex items-start justify-between gap-2 w-full"><div class="flex-1 min-w-0 pr-2"><div class="col-name font-extrabold text-white text-[16px] md:text-lg" contenteditable="true" data-placeholder="Tên CH...">Cửa Hàng Mới</div><div class="badges-container flex flex-wrap gap-1 mt-1.5"></div></div><button type="button" onclick="openStoreDetails(this)" class="btn-detail shrink-0 w-11 h-11 rounded-2xl flex items-center justify-center transition font-bold bg-[#0b0f19] border border-slate-700 text-blue-400"><i class="fas fa-clipboard-list text-[17px]"></i></button></div><div class="hidden"><input type="hidden" class="val-detail-orders" value='[]'><textarea class="val-detail-order"></textarea><textarea class="val-detail-expired"></textarea><textarea class="val-detail-note"></textarea></div></td><td class="td-address md:table-cell px-4 pt-2 pb-4 md:py-3 cursor-pointer border-b border-slate-700 md:border-none bg-transparent"><div class="flex flex-col w-full"><div class="col-address text-slate-400 text-[13px] md:text-[14px] w-full leading-snug" contenteditable="true" data-placeholder="Nhập địa chỉ...">Địa chỉ...</div><div class="w-full mt-3"><div class="flex items-center bg-orange-950 border-2 border-orange-500/80 rounded-xl px-3 py-2 shadow-[0_0_12px_rgba(249,115,22,0.2)] flex-1"><i class="far fa-clock text-orange-400 text-[15px] mr-2"></i><input type="text" class="col-time w-full text-[14px] outline-none !bg-transparent !border-none text-orange-400 font-black placeholder-orange-700/50 p-0" value="" placeholder="Giờ giao..." onchange="markLocalEdit(); pushToFirebase()"></div></div></div></td><td class="td-tuyen md:table-cell justify-between items-center py-3 md:py-3 px-2 text-center border-b border-slate-700 md:border-none"><span class="mobile-label">Tuyến</span><select class="col-day appearance-none font-bold rounded-lg px-2 py-1 text-[13px] bg-[#0b0f19] text-white w-full border border-slate-700 outline-none text-center" onchange="markLocalEdit(); pushToFirebase()"><option value="T2">T2</option><option value="T3">T3</option><option value="T4">T4</option><option value="T5">T5</option><option value="T6">T6</option><option value="T7">T7</option><option value="CN">CN</option></select></td><td class="td-freq md:table-cell justify-between items-center py-3 md:py-3 px-2 text-center border-b border-slate-700 md:border-none"><span class="mobile-label">Tần Suất</span><select class="col-freq appearance-none font-bold rounded-lg px-2 py-1 text-[13px] bg-[#0b0f19] text-blue-400 w-full border border-slate-700 outline-none text-center" onchange="markLocalEdit(); pushToFirebase()"><option value="F2">F2</option><option value="F4" selected>F4</option><option value="F8">F8</option></select></td><td class="td-loai md:table-cell justify-between items-center py-3 md:py-3 px-2 text-center border-b border-slate-700 md:border-none"><span class="mobile-label">Phân Loại</span><select class="col-type appearance-none font-bold rounded-lg px-2 py-1 text-[13px] border outline-none w-full text-center bg-orange-900/20 text-orange-400 border-orange-500/30" onchange="changeTypeColor(this)"><option value="OFF" selected>OFF</option><option value="ON">ON</option></select></td><td class="td-lppc-wrapper md:table-cell justify-between items-center py-3 md:py-3 px-4 text-center border-b border-slate-700 md:border-none cursor-pointer" onclick="openStoreDetails(this)"><span class="mobile-label">LPPC</span><div class="col-lppc-display font-black bg-[#0b0f19] border border-slate-700 rounded-lg px-2 py-1.5 min-w-[3.5rem] w-full text-center text-[16px]">0.0</div></td><td class="td-don-wrapper md:table-cell justify-between items-center py-3 md:py-3 px-4 text-center border-b border-slate-700 md:border-none cursor-pointer" onclick="openStoreDetails(this)"><span class="mobile-label text-teal-400">Đơn Hàng</span><div class="col-order-display font-black bg-[#0b0f19] border border-slate-700 text-white rounded-lg px-2 py-1.5 min-w-[3.5rem] w-full text-center text-[16px]">0</div></td><td class="td-pc4-wrapper md:table-cell justify-between items-center py-3 md:py-3 px-4 text-center border-b border-slate-700 md:border-none cursor-pointer" onclick="openStoreDetails(this)"><span class="mobile-label text-purple-400">PC 4L</span><div class="col-pc4-display font-black bg-[#0b0f19] border border-slate-700 text-white rounded-lg px-2 py-1.5 min-w-[3.5rem] w-full text-center text-[16px]">0</div></td><td class="td-xanh md:table-cell justify-between items-center py-4 md:py-3 px-4 text-center bg-transparent border-b border-slate-700 md:border-none"><span class="mobile-label text-green-400">Xanh</span><input type="checkbox" class="col-green custom-checkbox cb-xanh scale-[1.1] md:scale-100 mx-auto"></td><td class="td-vang md:table-cell justify-between items-center py-4 md:py-3 px-4 text-center bg-transparent border-b border-slate-700 md:border-none"><span class="mobile-label text-yellow-400">Vàng</span><input type="checkbox" class="col-yellow custom-checkbox cb-vang scale-[1.1] md:scale-100 mx-auto"></td>`;
+            
+            tbodyOff.appendChild(tr); 
+            markLocalEdit(); 
+            window.updateRowNumbers();
+            calculateKPI(); 
+            pushToFirebase();
+            
             tr.scrollIntoView({behavior: "smooth", block: "center"});
             setTimeout(() => { tr.querySelector('.col-name').focus(); }, 300);
         }
 
         window.changeTypeColor = function(selectEle) {
             const tr = selectEle.closest('tr'); selectEle.className = "col-type appearance-none font-bold rounded-lg px-2 py-1 text-[13px] border cursor-pointer outline-none w-full text-center " + (selectEle.value === 'ON' ? 'bg-blue-900/20 text-blue-400 border-blue-500/30' : (selectEle.value === 'OFF' ? 'bg-orange-900/20 text-orange-400 border-orange-500/30' : 'bg-[#0b0f19] text-slate-400 border-slate-700'));
-            if(isViewingArchive) return; markLocalEdit(); (selectEle.value === 'ON' ? tbodyOn : (selectEle.value === 'OFF' ? tbodyOff : tbodyEmpty)).appendChild(tr); calculateKPI(); pushToFirebase();
+            if(isViewingArchive) return; markLocalEdit(); 
+            (selectEle.value === 'ON' ? tbodyOn : (selectEle.value === 'OFF' ? tbodyOff : tbodyEmpty)).appendChild(tr); 
+            window.updateRowNumbers();
+            calculateKPI(); 
+            pushToFirebase();
         }
         window.toggleGroup = function(tbodyId, headerRow) { hapticVibrate(); const tbody = document.getElementById(tbodyId), icon = headerRow.querySelector('.toggle-icon'); if (tbody.classList.contains('hidden-tbody')) { tbody.classList.remove('hidden-tbody'); icon.style.transform = 'rotate(0deg)'; } else { tbody.classList.add('hidden-tbody'); icon.style.transform = 'rotate(180deg)'; } }
 
@@ -1196,7 +1198,6 @@
                 let greenCb = row.querySelector('.col-green'), yellowCb = row.querySelector('.col-yellow');
                 if(greenCb && greenCb.checked) green++; if(yellowCb && yellowCb.checked) yellow++;
                 
-                // CHỈ KHI CỬA HÀNG CÓ LPPC >= 4.0 MỚI ĐƯỢC TÍNH VÀO TỔNG
                 if (parseFloat(storeLppcText) >= 4.0) {
                     globalSumLppcLines += storeLppcLines; 
                     globalCountLppcOrders += storeLppcOrders; 
@@ -1219,7 +1220,7 @@
             document.getElementById('count-yellow').innerText = `${yellow}/${tYellow}`; document.getElementById('bar-yellow').style.width = tYellow > 0 ? Math.min(100, (yellow/tYellow)*100)+'%' : '0%'; document.getElementById('pct-yellow').innerText = (tYellow > 0 ? Math.round((yellow/tYellow)*100) : 0)+'%';
             document.getElementById('count-pcon').innerText = `${pcon}/${tPcon}`; document.getElementById('bar-pcon').style.width = tPcon > 0 ? Math.min(100, (pcon/tPcon)*100)+'%' : '0%'; document.getElementById('pct-pcon').innerText = (tPcon > 0 ? Math.round((pcon/tPcon)*100) : 0)+'%';
             document.getElementById('count-pc4').innerText = `${pc4}/${tPc4}`; document.getElementById('bar-pc4').style.width = tPc4 > 0 ? Math.min(100, (pc4/tPc4)*100)+'%' : '0%'; document.getElementById('pct-pc4').innerText = (tPc4 > 0 ? Math.round((pc4/tPc4)*100) : 0)+'%';
-            // Cập nhật phần trăm và thanh chạy Doanh thu
+            
             let pctRevVal = tRev > 0 ? Math.round((rev / tRev) * 100) : 0;
             const pctRevEl = document.getElementById('pct-rev');
             if (pctRevEl) pctRevEl.innerText = pctRevVal + '%';
@@ -1229,7 +1230,8 @@
             document.getElementById('avg-lppc').innerText = finalGlobalLppc; document.getElementById('sum-lppc').innerText = "Σ:"+globalSumLppcLines;
             
             currentKPIs = { countAso: aso, countGreen: green, countYellow: yellow, countPcOn: pcon, countPc4: pc4, totalRevenue: rev, globalLppc: parseFloat(finalGlobalLppc) }; 
-            window.calcSalary(); window.renderTargetBoard();
+            window.calcSalary(); 
+            window.renderTargetBoard();
         }
 
         window.loadTargets = function(t) {
@@ -1247,28 +1249,15 @@
             document.getElementById('salary-total').innerText = formatCurrencyInput((base+tb).toString());
         }
 
-        window.calcSalary = function() {
-            // ... các dòng tính lương cũ nằm ở đây ...
-            document.getElementById('salary-total').innerText = formatCurrencyInput((base+tb).toString());
-        }
-
-        // ==============================================================
-        // DÁN VÀO ĐÂY: HÀM TỰ ĐỘNG TÍNH SỐ NGÀY LÀM VIỆC (TRỪ CHỦ NHẬT)
-        // ==============================================================
         function getAutoRemainingDays() {
             let today = new Date();
             let year = today.getFullYear();
-            let month = today.getMonth(); // 0 - 11
+            let month = today.getMonth();
             let currentDate = today.getDate();
-            
-            // Ngày cuối cùng của tháng
             let lastDayOfMonth = new Date(year, month + 1, 0).getDate();
-            
             let remainingWorkDays = 0;
-            // Đếm từ ngày hiện tại đến ngày cuối cùng của tháng
             for (let d = currentDate; d <= lastDayOfMonth; d++) {
                 let checkDate = new Date(year, month, d);
-                // getDay() === 0 là Chủ Nhật -> Bỏ qua
                 if (checkDate.getDay() !== 0) {
                     remainingWorkDays++;
                 }
@@ -1282,13 +1271,10 @@
                 daysInput.value = getAutoRemainingDays();
             }
         }
-        // ==============================================================
 
         window.renderTargetBoard = function() {
-            let daysInput = document.getElementById('remaining-days-input');
-            // ... phần bên dưới giữ nguyên ...
-        window.renderTargetBoard = function() {
-            let daysInput = document.getElementById('remaining-days-input'); let days = parseInt(daysInput ? daysInput.value : 1) || 1;
+            let daysInput = document.getElementById('remaining-days-input'); 
+            let days = parseInt(daysInput ? daysInput.value : 1) || 1;
             const tgts = [ {n:'Doanh Thu', t:getMoneyValue(document.getElementById('target-rev-input').value), a:currentKPIs.totalRevenue, c:'#10b981', m:true}, {n:'ASO ALL', t:parseFloat(document.getElementById('target-aso-input').value)||0, a:currentKPIs.countAso, c:'#22d3ee'}, {n:'Trận Xanh', t:parseFloat(document.getElementById('target-green-input').value)||0, a:currentKPIs.countGreen, c:'#4ade80'}, {n:'Trận Vàng', t:parseFloat(document.getElementById('target-yellow-input').value)||0, a:currentKPIs.countYellow, c:'#facc15'}, {n:'PC ON', t:parseFloat(document.getElementById('target-pcon-input').value)||0, a:currentKPIs.countPcOn, c:'#60a5fa'}, {n:'PC 4L (OFF)', t:parseFloat(document.getElementById('target-pc4-input').value)||0, a:currentKPIs.countPc4, c:'#c084fc'} ];
             let html = '';
             tgts.forEach(i => {
@@ -1296,7 +1282,8 @@
                 let stat = i.t===0 ? `<div class="text-[10px] text-slate-500 mt-2 font-bold">Chưa có mục tiêu</div>` : (gap<=0 ? `<div class="text-[10px] text-green-400 font-bold mt-2 bg-green-900/30 px-2 py-1 rounded inline-block">🎉 Hoàn Thành</div>` : `<div class="flex items-center gap-3 mt-2"><div class="text-center"><div class="text-[9px] text-slate-500 uppercase font-black">Thiếu</div><div class="text-red-400 font-bold text-sm">${gStr}</div></div><i class="fas fa-chevron-right text-slate-600 text-[10px]"></i><div class="text-center"><div class="text-[9px] uppercase font-black" style="color:${i.c}">Làm/ngày</div><div class="font-black text-base drop-shadow-[0_0_5px_${i.c}]" style="color:${i.c}">${rStr}</div></div></div>`);
                 html += `<div class="bg-[#0b0f19] border border-slate-700 rounded-xl p-3"><div class="flex justify-between items-start"><div class="font-black text-[12px] uppercase" style="color:${i.c}">${i.n}</div><div class="text-[11px] text-slate-400 font-bold">${aStr}/${tStr}</div></div>${stat}</div>`;
             });
-            let targetBoard = document.getElementById('target-board-list'); if(targetBoard) targetBoard.innerHTML = html;
+            let targetBoard = document.getElementById('target-board-list'); 
+            if(targetBoard) targetBoard.innerHTML = html;
         }
 
         window.openHistoryModal = function(){ document.getElementById('history-modal').classList.remove('hidden'); }
@@ -1360,13 +1347,13 @@
 
         function sortGroupsDirect() { 
             const sArea = document.getElementById('scroll-area'), mPos = window.scrollY, dPos = sArea.scrollTop; 
-            [tbodyOff, tbodyOn].forEach(tbody => { let rows = Array.from(tbody.querySelectorAll('tr:not(.group-header)')); rows.sort((a, b) => getRowScore(b) - getRowScore(a)); rows.forEach(row => tbody.appendChild(row)); }); 
+            [tbodyOff, tbodyOn, tbodyEmpty].forEach(tbody => { let rows = Array.from(tbody.querySelectorAll('tr:not(.group-header)')); rows.sort((a, b) => getRowScore(b) - getRowScore(a)); rows.forEach(row => tbody.appendChild(row)); }); 
             window.updateRowNumbers(); 
             requestAnimationFrame(()=>{ window.innerWidth <= 768 ? window.scrollTo(0, mPos) : sArea.scrollTop = dPos; });
         }
 
         window.updateRowNumbers = function() { 
-            let index = 1, countOn = 0, countOff = 0; 
+            let index = 1, countOn = 0, countOff = 0, countEmpty = 0; 
             document.querySelectorAll('tbody tr:not(.group-header)').forEach(tr => { 
                 let name = tr.querySelector('.col-name').innerText.trim();
                 let isPlaceholder = name === "" || name.includes("CH Chưa Đặt Tên") || name.includes("Cửa Hàng Mới");
@@ -1375,12 +1362,15 @@
                     tr.querySelector('.col-index').innerText = index++; 
                     if(tr.closest('#tbody-on')) countOn++; 
                     if(tr.closest('#tbody-off')) countOff++; 
+                    if(tr.closest('#tbody-empty')) countEmpty++;
                 } else if (isPlaceholder) {
                     tr.querySelector('.col-index').innerText = ""; 
                 }
             }); 
-            document.getElementById('count-group-on').innerText = countOn; 
-            document.getElementById('count-group-off').innerText = countOff; 
+            document.getElementById('count-group-on').innerText = countOn + ' CH'; 
+            document.getElementById('count-group-off').innerText = countOff + ' CH'; 
+            let emptyLabel = document.getElementById('count-group-empty');
+            if(emptyLabel) emptyLabel.innerText = countEmpty + ' CH';
         }
 
         function searchTable() { 
@@ -1410,7 +1400,6 @@
             calculateKPI();
         }
 
-// Bắt sự kiện click chọn dòng (Chặn nổi bọt khi click trúng checkbox hoặc nút)
         document.querySelector('.table-container').addEventListener('click', (e) => { 
             if (e.target.closest('input[type="checkbox"]') || e.target.closest('button') || e.target.closest('select') || e.target.isContentEditable) {
                 return;
@@ -1430,12 +1419,9 @@
             } 
         });
 
-        // Bắt sự kiện checkbox: Cố định vị trí cuộn màn hình & cuộn bảng, chỉ cập nhật số liệu chứ KHÔNG sắp xếp lại dòng
         document.querySelector('.table-container').addEventListener('change', (e) => { 
             if (!isViewingArchive && e.target.matches('input[type="checkbox"]')) { 
                 hapticVibrate(); 
-                
-                // Lưu lại vị trí cuộn hiện tại của cả trang và bảng
                 const scrollPosWindow = window.scrollY;
                 const scrollContainer = document.getElementById('scroll-area');
                 const scrollPosTable = scrollContainer ? scrollContainer.scrollTop : 0;
@@ -1444,16 +1430,13 @@
                 calculateKPI(); 
                 pushToFirebase(); 
 
-                // Giữ nguyên vị trí cuộn, ngăn giật nhảy bảng
                 requestAnimationFrame(() => {
                     window.scrollTo({ top: scrollPosWindow, behavior: 'instant' });
                     if (scrollContainer) scrollContainer.scrollTop = scrollPosTable;
                 });
             } 
         });
-    // ==========================================
-        // LÕI THỐNG KÊ ĐƠN THEO NGÀY CỐ ĐỊNH (1 - 31)
-        // ==========================================
+
         let selectedStatDay = 'all';
 
         function initOrderStatDaysGrid() {
@@ -1495,7 +1478,7 @@
             let allOrdersList = [];
             let totalAllOrders = 0;
             let totalAllAmount = 0;
-            let globalEntryCounter = 0; // Đếm thứ tự nhập toàn hệ thống từ cũ đến mới
+            let globalEntryCounter = 0;
 
             document.querySelectorAll('tbody tr:not(.group-header)').forEach(row => {
                 let name = row.querySelector('.col-name').innerText.trim();
@@ -1506,7 +1489,6 @@
                 let detOrdStr = row.querySelector('.val-detail-order') ? row.querySelector('.val-detail-order').value : "";
                 let orders = JSON.parse(ordersStr ? ordersStr.value : "[]");
 
-                // Bóc tách ngày từ log [DD/MM] nếu có
                 let foundDays = [];
                 let regex = /\[(\d{1,2})\/(\d{1,2})\]/g;
                 let match;
@@ -1519,7 +1501,6 @@
                     totalAllAmount += (o.v || 0);
                     globalEntryCounter++;
 
-                    // Xác định ngày: nếu không có ngày cũ thì gom toàn bộ vào ngày 5
                     let assignedDay = 5; 
                     if (o.dayNum) {
                         assignedDay = parseInt(o.dayNum, 10);
@@ -1531,7 +1512,7 @@
                     }
 
                     allOrdersList.push({
-                        orderIndex: globalEntryCounter, // Thứ tự nhập từ cũ đến mới
+                        orderIndex: globalEntryCounter,
                         storeName: name,
                         val: o.v || 0,
                         lines: o.l || 0,
@@ -1541,20 +1522,17 @@
                 });
             });
 
-            // Cập nhật tổng số đơn và tổng tiền
             const countEl = document.getElementById('order-stat-total-count');
             const amtEl = document.getElementById('order-stat-total-amount');
             if (countEl) countEl.innerText = totalAllOrders;
             if (amtEl) amtEl.innerText = formatCurrencyInput(totalAllAmount.toString()) + ' đ';
 
-            // Lọc theo ngày đang chọn
             let filtered = allOrdersList;
             if (selectedStatDay !== 'all') {
                 let targetDay = parseInt(selectedStatDay, 10);
                 filtered = allOrdersList.filter(item => item.dayNum === targetDay);
             }
 
-            // SẮP XẾP: Từ đơn nhập sớm nhất (cũ nhất) đến đơn nhập mới nhất
             filtered.sort((a, b) => a.orderIndex - b.orderIndex);
 
             let filteredAmount = filtered.reduce((sum, item) => sum + item.val, 0);
@@ -1582,15 +1560,6 @@
                 }
             }
         };
-
-        // Tự động khởi tạo và tính toán mỗi khi mở Menu 3 gạch
-    const originalToggleSidebar = window.toggleSidebar;
-        window.toggleSidebar = function() {
-            originalToggleSidebar();
-            updateRemainingDaysAuto(); // Tự tính lại ngày làm việc mỗi khi mở menu
-            initOrderStatDaysGrid();
-            renderOrderStats();
-        }
     </script>
 </body>
 </html>
