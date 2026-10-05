@@ -389,9 +389,23 @@
             </div>
 
             <div class="bg-[#151c2c] rounded-3xl p-5 border border-slate-700 shadow-inner">
-                <div class="flex justify-between items-center mb-5 border-b border-slate-700 pb-4">
+                <div class="flex justify-between items-center mb-4 border-b border-slate-700 pb-3">
                     <h3 class="text-[15px] font-black text-white flex items-center tracking-widest uppercase"><i class="fas fa-bullseye text-indigo-500 mr-3 drop-shadow-[0_0_10px_rgba(99,102,241,0.8)]"></i>Mục Tiêu / Ngày</h3>
+                    <span class="text-[10px] font-black bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-lg" id="stat-month-label">Tháng Này</span>
                 </div>
+
+                <!-- Ô TIẾN ĐỘ % SỐ NGÀY ĐÃ QUA -->
+                <div class="mb-4 bg-[#0b0f19] border border-indigo-500/30 rounded-2xl p-3.5 shadow-inner">
+                    <div class="flex justify-between items-center mb-1.5">
+                        <span class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Tiến độ tháng (trừ CN)</span>
+                        <span class="text-[15px] font-black text-indigo-400 drop-shadow-[0_0_8px_rgba(99,102,241,0.6)]" id="month-passed-pct">0%</span>
+                    </div>
+                    <div class="w-full bg-[#151c2c] rounded-full h-2 overflow-hidden mb-2">
+                        <div id="bar-month-passed" class="bg-indigo-500 h-2 rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(99,102,241,0.8)]" style="width: 0%"></div>
+                    </div>
+                    <div class="text-[10px] text-slate-400 font-bold text-right" id="month-passed-desc">Đã qua: 0/0 ngày làm việc</div>
+                </div>
+
                 <div class="mb-5 bg-[#0b0f19] border border-indigo-500/30 rounded-2xl p-4 flex items-center justify-between shadow-[0_0_15px_rgba(99,102,241,0.15)]">
                     <div><div class="text-[11px] text-indigo-400 font-black uppercase tracking-widest">Số ngày còn lại (trừ CN)</div></div>
                     <input type="number" id="remaining-days-input" oninput="calculateKPI(); saveTargets()" class="w-16 h-12 text-center font-black text-[22px] text-indigo-400 bg-[#151c2c] border border-indigo-500/50 rounded-xl outline-none" value="1" min="1">
@@ -729,7 +743,7 @@
             if(sidebar.classList.contains('translate-x-full')) { 
                 sidebar.classList.remove('translate-x-full'); 
                 overlay.classList.remove('hidden'); 
-                if(typeof updateRemainingDaysAuto === 'function') updateRemainingDaysAuto();
+                updateMonthProgressAuto(); // Tự tính % tiến độ tháng & số ngày còn lại
                 if(typeof initOrderStatDaysGrid === 'function') initOrderStatDaysGrid();
                 if(typeof renderOrderStats === 'function') renderOrderStats();
             } else { 
@@ -1082,22 +1096,48 @@
             document.getElementById('salary-total').innerText = formatCurrencyInput((base+tb).toString());
         }
 
-        function getAutoRemainingDays() {
+        // TÍNH TIẾN ĐỘ THÁNG & SỐ NGÀY CÒN LẠI (TRỪ CHỦ NHẬT)
+        function updateMonthProgressAuto() {
             let today = new Date();
             let year = today.getFullYear();
-            let month = today.getMonth();
+            let month = today.getMonth(); // 0 - 11
             let currentDate = today.getDate();
             let lastDayOfMonth = new Date(year, month + 1, 0).getDate();
+
+            let totalWorkDays = 0;
+            let passedWorkDays = 0;
             let remainingWorkDays = 0;
-            for (let d = currentDate; d <= lastDayOfMonth; d++) {
+
+            for (let d = 1; d <= lastDayOfMonth; d++) {
                 let checkDate = new Date(year, month, d);
+                // Bỏ qua Chủ Nhật
                 if (checkDate.getDay() !== 0) {
-                    remainingWorkDays++;
+                    totalWorkDays++;
+                    if (d < currentDate) {
+                        passedWorkDays++; // Các ngày làm việc đã qua hoàn toàn
+                    } else {
+                        remainingWorkDays++; // Tính cả hôm nay và các ngày còn lại
+                    }
                 }
             }
-            return Math.max(1, remainingWorkDays);
-        }
 
+            let pct = totalWorkDays > 0 ? Math.round((passedWorkDays / totalWorkDays) * 100) : 0;
+
+            // Cập nhật giao diện % ngày đã qua
+            const pctEl = document.getElementById('month-passed-pct');
+            const barEl = document.getElementById('bar-month-passed');
+            const descEl = document.getElementById('month-passed-desc');
+            const labelEl = document.getElementById('stat-month-label');
+            const daysInput = document.getElementById('remaining-days-input');
+
+            if (pctEl) pctEl.innerText = `${pct}%`;
+            if (barEl) barEl.style.width = `${pct}%`;
+            if (descEl) descEl.innerText = `Đã qua: ${passedWorkDays}/${totalWorkDays} ngày làm việc`;
+            if (labelEl) labelEl.innerText = `T${month + 1}/${year}`;
+            if (daysInput && (!daysInput.value || daysInput.value === "0" || daysInput.value === "1")) {
+                daysInput.value = Math.max(1, remainingWorkDays);
+            }
+        }
         function updateRemainingDaysAuto() {
             const daysInput = document.getElementById('remaining-days-input');
             if (daysInput) {
