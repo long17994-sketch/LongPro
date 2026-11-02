@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KPI anh Long Pro - V83 Cyber HUD</title>
+    <title>KPI anh Long Pro - V84.1 PC 1 Line</title>
     <script>
         try { localStorage.removeItem('kpi_backup_longpro'); } catch(e) {}
     </script>
@@ -45,7 +45,6 @@
             scroll-behavior: smooth;
             font-variant-numeric: tabular-nums;
         }
-        /* Thẻ Cyber HUD sắc nét, không dùng blur gây lag GPU */
         .hud-card {
             background: linear-gradient(180deg, #111827 0%, #0d1320 100%);
             border: 1px solid #1e293b;
@@ -58,13 +57,20 @@
         input::placeholder, textarea::placeholder { color: #475569 !important; }
         input:focus, textarea:focus { border-color: #06b6d4 !important; }
         
+        .kpi-target-input {
+            font-size: 12.5px !important;
+            background-color: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+        }
+        
         [contenteditable] { padding: 2px 4px; margin: -2px -4px; transition: background 0.15s; min-height: 22px; display: inline-block; width: 100%; cursor: text; }
         [contenteditable]:empty:before { content: attr(data-placeholder); color: #475569; pointer-events: none; }
         [contenteditable]:focus { background: #1e293b !important; color: #fff; border-radius: 6px; outline: 1px solid #06b6d4; }
         
         input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         
-        /* Nút Checkbox Xanh / Vàng gọn đẹp */
         .cb-xanh { border: 1.5px solid rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.06); } 
         .cb-xanh:checked { background: #10b981; border-color: #10b981; box-shadow: 0 0 12px rgba(16,185,129,0.5); }
         .cb-vang { border: 1.5px solid rgba(234, 179, 8, 0.4); background: rgba(234, 179, 8, 0.06); } 
@@ -83,10 +89,8 @@
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         .slide-up-modal { animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-        /* Điểm nhấn viền trái cho CH đã lên đơn */
         tr.store-has-order { border-left: 3px solid #10b981 !important; }
         
-        /* THIẾT KẾ THẺ MOBILE MỚI (GỌN HƠN 35%, HIỆN ĐẠI HƠN) */
         @media (max-width: 768px) {
             .table-container { max-height: none !important; overflow: visible !important; scroll-margin-top: 120px; }
             .table-wrapper-card { background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; }
@@ -94,7 +98,6 @@
             thead tr { position: absolute; top: -9999px; left: -9999px; }
             .group-header { position: sticky; top: 8px; z-index: 20; margin-bottom: 10px; border-radius: 14px; box-shadow: 0 6px 20px rgba(0,0,0,0.65); }
             
-            /* Chia lưới 10 cột để xếp 5 chỉ số nằm gọn trên 1 hàng ngang */
             tbody tr:not(.group-header) { 
                 display: grid; 
                 grid-template-columns: repeat(10, 1fr); 
@@ -112,18 +115,14 @@
             }
             .col-index { display: none !important; }
             
-            /* Tầng 1: Tên quán + Nút chi tiết */
             .td-name { grid-column: 1 / 11; display: flex !important; background: transparent !important; border: none !important; padding: 0 !important; align-items: flex-start; justify-content: space-between; }
-            
-            /* Tầng 2: Địa chỉ + Pill giờ giao nhỏ gọn */
             .td-address { grid-column: 1 / 11; display: flex !important; flex-direction: column; background: transparent !important; border-bottom: 1px solid rgba(30, 41, 59, 0.8) !important; border-top: none !important; border-left: none !important; border-right: none !important; padding: 0 0 10px 0 !important; margin-bottom: 2px; }
             
-            /* Tầng 3: 3 nút chọn Tuyến - Tần Suất - Kênh */
             .td-tuyen { grid-column: 1 / 4; } 
             .td-freq { grid-column: 4 / 7; } 
             .td-loai { grid-column: 7 / 11; }
             
-            /* Tầng 4 (HUD Bar): 5 ô LPPC - Đơn - PC4 - Xanh - Vàng trên cùng 1 hàng! */
+            /* Thanh HUD 5 ô ngang hàng: LPPC - Đơn - PC 1L - Xanh - Vàng */
             .td-lppc-wrapper { grid-column: 1 / 3; } 
             .td-don-wrapper { grid-column: 3 / 5; } 
             .td-pc4-wrapper { grid-column: 5 / 7; }
@@ -170,7 +169,7 @@
                                 <span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-yellow-400 animate-pulse border-2 border-[#111827]" id="sync-dot"></span>
                             </div>
                         </div>
-                        <div class="text-[10px] font-semibold text-slate-500 tracking-wider uppercase mt-0.5">Field Sales Command Center</div>
+                        <div class="text-[10px] font-semibold text-slate-500 tracking-wider uppercase mt-0.5">Chuẩn Mới • PC 1 Line & LPPC &ge; 1 Line</div>
                     </div>
                 </div>
 
@@ -213,18 +212,18 @@
             <button onclick="hapticVibrate(); exitArchiveView()" class="w-full md:w-auto bg-amber-500 text-black px-4 py-2 rounded-xl font-black active:scale-95 transition text-xs uppercase"><i class="fas fa-arrow-left mr-1.5"></i>Quay Lại Hiện Tại</button>
         </div>
 
-        <!-- BẢNG KPI BENTO GRID (XEM TRỌN TRÊN MOBILE KHÔNG CẦN VUỐT NGANG) -->
+        <!-- BẢNG KPI BENTO GRID (ĐỦ 8 THẺ: CÓ PC 1 LINE & LPPC >= 1 LINE) -->
         <div id="kpi-bento-grid" class="grid grid-cols-6 lg:grid-cols-9 gap-2 md:gap-3 transition-all duration-300">
             
             <!-- 1. Doanh Thu (Chiếm 4/6 cột Mobile, 2/9 cột Desktop) -->
-            <div class="hud-card rounded-2xl p-3 md:p-3.5 col-span-4 lg:col-span-2 flex flex-col justify-between border-emerald-500/30 relative overflow-hidden">
-                <div class="flex justify-between items-center gap-1 mb-1.5">
-                    <span class="text-[10px] font-extrabold text-emerald-400 uppercase tracking-wider flex items-center gap-1">
+            <div class="hud-card rounded-2xl p-3 md:p-3.5 col-span-4 lg:col-span-2 flex flex-col justify-between border-emerald-500/35 relative overflow-hidden">
+                <div class="flex justify-between items-center gap-1.5 mb-1.5">
+                    <span class="text-[10px] font-extrabold text-emerald-400 uppercase tracking-wider flex items-center gap-1 shrink-0">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Doanh Thu
                     </span>
-                    <div class="flex items-center bg-[#070b12] rounded-lg px-2 py-0.5 border border-emerald-500/25 max-w-[115px]">
-                        <span class="text-[9px] text-emerald-500/70 mr-1 font-bold">Mục tiêu:</span>
-                        <input type="text" id="target-rev-input" class="w-full text-right font-extrabold text-emerald-400 bg-transparent border-none p-0 outline-none text-[11px]" value="0" placeholder="0đ" onkeyup="this.value=formatCurrencyInput(this.value); calculateKPI(); saveTargets()">
+                    <div class="flex items-center bg-[#070b12] rounded-lg px-2 py-1 border border-emerald-500/40 flex-1 max-w-[155px] shadow-inner">
+                        <span class="text-[9.5px] text-emerald-500/80 mr-1 font-black shrink-0">T:</span>
+                        <input type="text" id="target-rev-input" class="kpi-target-input w-full text-right font-black text-emerald-400 outline-none" value="0" placeholder="Nhập mục tiêu..." onkeyup="this.value=formatCurrencyInput(this.value); calculateKPI(); saveTargets()">
                     </div>
                 </div>
                 <div class="flex items-baseline justify-between my-0.5">
@@ -252,8 +251,9 @@
             <div class="hud-card rounded-2xl p-2.5 md:p-3.5 col-span-2 lg:col-span-1 flex flex-col justify-between border-cyan-500/25">
                 <div class="flex justify-between items-center gap-1">
                     <span class="text-[9.5px] font-extrabold text-cyan-400 uppercase tracking-wider">ASO</span>
-                    <div class="flex items-center bg-[#070b12] rounded px-1.5 py-0.5 border border-slate-800 max-w-[52px]">
-                        <input type="number" id="target-aso-input" class="w-full text-right font-bold text-cyan-400 bg-transparent border-none p-0 outline-none text-[11px]" value="0" min="0" oninput="calculateKPI(); saveTargets()">
+                    <div class="flex items-center bg-[#070b12] rounded-md px-1.5 py-0.5 border border-slate-800 w-[60px]">
+                        <span class="text-[8.5px] text-slate-500 mr-1 font-bold">T:</span>
+                        <input type="number" id="target-aso-input" class="kpi-target-input w-full text-right font-black text-cyan-400 outline-none" value="0" min="0" oninput="calculateKPI(); saveTargets()">
                     </div>
                 </div>
                 <div class="flex justify-between items-baseline mt-1.5">
@@ -263,12 +263,13 @@
                 <div class="w-full bg-[#070b12] rounded-full h-1 mt-1.5 overflow-hidden"><div id="bar-aso" class="bg-cyan-400 h-1 rounded-full transition-all duration-500" style="width: 0%"></div></div>
             </div>
 
-            <!-- 4. PC 4 LINE (OFF) -->
+            <!-- 4. PC 1 LINE (OFF) -->
             <div class="hud-card rounded-2xl p-2.5 md:p-3.5 col-span-2 lg:col-span-1 flex flex-col justify-between border-purple-500/25">
                 <div class="flex justify-between items-center gap-1">
-                    <span class="text-[9.5px] font-extrabold text-purple-400 uppercase tracking-wider">PC 4L</span>
-                    <div class="flex items-center bg-[#070b12] rounded px-1.5 py-0.5 border border-slate-800 max-w-[52px]">
-                        <input type="number" id="target-pc4-input" class="w-full text-right font-bold text-purple-400 bg-transparent border-none p-0 outline-none text-[11px]" value="0" min="0" oninput="calculateKPI(); saveTargets()">
+                    <span class="text-[9.5px] font-extrabold text-purple-400 uppercase tracking-wider">PC 1L <span class="text-[8px] opacity-75">(OFF)</span></span>
+                    <div class="flex items-center bg-[#070b12] rounded-md px-1.5 py-0.5 border border-slate-800 w-[58px]">
+                        <span class="text-[8.5px] text-slate-500 mr-1 font-bold">T:</span>
+                        <input type="number" id="target-pc4-input" class="kpi-target-input w-full text-right font-black text-purple-400 outline-none" value="0" min="0" oninput="calculateKPI(); saveTargets()">
                     </div>
                 </div>
                 <div class="flex justify-between items-baseline mt-1.5">
@@ -278,27 +279,29 @@
                 <div class="w-full bg-[#070b12] rounded-full h-1 mt-1.5 overflow-hidden"><div id="bar-pc4" class="bg-purple-500 h-1 rounded-full transition-all duration-500" style="width: 0%"></div></div>
             </div>
 
-            <!-- 5. TB LPPC -->
+            <!-- 5. TB LPPC (Đơn >= 1 Line) -->
             <div class="hud-card rounded-2xl p-2.5 md:p-3.5 col-span-2 lg:col-span-1 flex flex-col justify-between border-rose-500/25">
                 <div class="flex justify-between items-center gap-1">
                     <span class="text-[9.5px] font-extrabold text-rose-400 uppercase tracking-wider">LPPC</span>
-                    <div class="flex items-center bg-[#070b12] rounded px-1.5 py-0.5 border border-slate-800 max-w-[52px]">
-                        <input type="number" id="target-lppc-input" class="w-full text-right font-bold text-rose-400 bg-transparent border-none p-0 outline-none text-[11px]" value="5.0" step="0.1" min="0" oninput="calculateKPI(); saveTargets()">
+                    <div class="flex items-center bg-[#070b12] rounded-md px-1.5 py-0.5 border border-slate-800 w-[60px]">
+                        <span class="text-[8.5px] text-slate-500 mr-1 font-bold">T:</span>
+                        <input type="number" id="target-lppc-input" class="kpi-target-input w-full text-right font-black text-rose-400 outline-none" value="5.0" step="0.1" min="0" oninput="calculateKPI(); saveTargets()">
                     </div>
                 </div>
                 <div class="flex justify-between items-baseline mt-1.5">
                     <span class="text-[18px] md:text-[22px] font-black text-rose-400 leading-none" id="avg-lppc">0.0</span>
                     <span class="text-[11px] font-bold text-slate-400" id="sum-lppc">Σ:0</span>
                 </div>
-                <div class="text-[8px] text-rose-400/80 uppercase font-bold mt-1 bg-rose-950/40 rounded text-center py-0.5">&ge; 4.0 Line</div>
+                <div class="text-[8px] text-rose-400/80 uppercase font-bold mt-1 bg-rose-950/40 rounded text-center py-0.5">&ge; 1.0 Line</div>
             </div>
             
             <!-- 6. Trận Xanh -->
             <div class="hud-card rounded-2xl p-2.5 md:p-3.5 col-span-2 lg:col-span-1 flex flex-col justify-between border-green-500/25">
                 <div class="flex justify-between items-center gap-1">
                     <span class="text-[9.5px] font-extrabold text-green-400 uppercase tracking-wider">T.Xanh</span>
-                    <div class="flex items-center bg-[#070b12] rounded px-1.5 py-0.5 border border-slate-800 max-w-[52px]">
-                        <input type="number" id="target-green-input" class="w-full text-right font-bold text-green-400 bg-transparent border-none p-0 outline-none text-[11px]" value="0" min="0" oninput="calculateKPI(); saveTargets()">
+                    <div class="flex items-center bg-[#070b12] rounded-md px-1.5 py-0.5 border border-slate-800 w-[60px]">
+                        <span class="text-[8.5px] text-slate-500 mr-1 font-bold">T:</span>
+                        <input type="number" id="target-green-input" class="kpi-target-input w-full text-right font-black text-green-400 outline-none" value="0" min="0" oninput="calculateKPI(); saveTargets()">
                     </div>
                 </div>
                 <div class="flex justify-between items-baseline mt-1.5">
@@ -312,8 +315,9 @@
             <div class="hud-card rounded-2xl p-2.5 md:p-3.5 col-span-2 lg:col-span-1 flex flex-col justify-between border-yellow-500/25">
                 <div class="flex justify-between items-center gap-1">
                     <span class="text-[9.5px] font-extrabold text-yellow-400 uppercase tracking-wider">T.Vàng</span>
-                    <div class="flex items-center bg-[#070b12] rounded px-1.5 py-0.5 border border-slate-800 max-w-[52px]">
-                        <input type="number" id="target-yellow-input" class="w-full text-right font-bold text-yellow-400 bg-transparent border-none p-0 outline-none text-[11px]" value="0" min="0" oninput="calculateKPI(); saveTargets()">
+                    <div class="flex items-center bg-[#070b12] rounded-md px-1.5 py-0.5 border border-slate-800 w-[60px]">
+                        <span class="text-[8.5px] text-slate-500 mr-1 font-bold">T:</span>
+                        <input type="number" id="target-yellow-input" class="kpi-target-input w-full text-right font-black text-yellow-400 outline-none" value="0" min="0" oninput="calculateKPI(); saveTargets()">
                     </div>
                 </div>
                 <div class="flex justify-between items-baseline mt-1.5">
@@ -327,8 +331,9 @@
             <div class="hud-card rounded-2xl p-2.5 md:p-3.5 col-span-2 lg:col-span-1 flex flex-col justify-between border-blue-500/25">
                 <div class="flex justify-between items-center gap-1">
                     <span class="text-[9.5px] font-extrabold text-blue-400 uppercase tracking-wider">PC ON</span>
-                    <div class="flex items-center bg-[#070b12] rounded px-1.5 py-0.5 border border-slate-800 max-w-[52px]">
-                        <input type="number" id="target-pcon-input" class="w-full text-right font-bold text-blue-400 bg-transparent border-none p-0 outline-none text-[11px]" value="0" min="0" oninput="calculateKPI(); saveTargets()">
+                    <div class="flex items-center bg-[#070b12] rounded-md px-1.5 py-0.5 border border-slate-800 w-[60px]">
+                        <span class="text-[8.5px] text-slate-500 mr-1 font-bold">T:</span>
+                        <input type="number" id="target-pcon-input" class="kpi-target-input w-full text-right font-black text-blue-400 outline-none" value="0" min="0" oninput="calculateKPI(); saveTargets()">
                     </div>
                 </div>
                 <div class="flex justify-between items-baseline mt-1.5">
@@ -353,7 +358,7 @@
                             <th class="py-4 px-4 w-28 text-center bg-[#070b12]">Kênh</th>
                             <th class="py-4 px-4 w-24 text-center bg-[#070b12]">LPPC</th>
                             <th class="py-4 px-4 text-center text-teal-400 bg-[#070b12]">Đơn</th>
-                            <th class="py-4 px-4 text-center text-purple-400 bg-[#070b12]">PC 4L</th>
+                            <th class="py-4 px-4 text-center text-purple-400 bg-[#070b12]">PC 1L</th>
                             <th class="py-4 px-4 text-center text-green-400 bg-[#070b12]">Xanh</th>
                             <th class="py-4 px-4 text-center text-yellow-400 bg-[#070b12]">Vàng</th>
                         </tr>
@@ -405,7 +410,7 @@
         </div>
     </div>
 
-    <!-- THANH ĐIỀU KHIỂN DƯỚI ĐÁY MOBILE (FLOATING DOCK GỌN ĐẸP) -->
+    <!-- THANH ĐIỀU KHIỂN DƯỚI ĐÁY MOBILE -->
     <div id="mobile-bottom-bar" class="md:hidden fixed bottom-0 left-0 right-0 bg-[#0b111e] border-t border-slate-800 z-[100] px-3 pt-2.5 pb-safe flex flex-col gap-2 shadow-[0_-8px_25px_rgba(0,0,0,0.85)]">
         <div class="flex gap-1.5 w-full">
             <div class="relative flex-1">
@@ -512,7 +517,7 @@
                 <div class="space-y-2.5" id="target-board-list"></div>
             </div>
 
-            <!-- KÉT SẮT (BẢNG LƯƠNG) -->
+            <!-- KÉT SẮT (BẢNG LƯƠNG - ĐỦ THƯỞNG PC 1L) -->
             <div class="hud-card rounded-2xl p-4">
                 <div class="flex items-center mb-3 border-b border-slate-800 pb-2.5">
                     <i class="fas fa-sack-dollar text-yellow-500 text-base mr-2"></i>
@@ -533,7 +538,7 @@
                         <div><label class="block text-[9.5px] font-bold text-green-400 uppercase mb-1">Thưởng T.Xanh</label><input type="text" id="bonus-green" class="bonus-input" value="0" placeholder="Tiền thưởng" onkeyup="handleBonusInput(this)"></div>
                         <div><label class="block text-[9.5px] font-bold text-yellow-400 uppercase mb-1">Thưởng T.Vàng</label><input type="text" id="bonus-yellow" class="bonus-input" value="0" placeholder="Tiền thưởng" onkeyup="handleBonusInput(this)"></div>
                         <div><label class="block text-[9.5px] font-bold text-blue-400 uppercase mb-1">Thưởng PC ON</label><input type="text" id="bonus-pcon" class="bonus-input" value="0" placeholder="Tiền thưởng" onkeyup="handleBonusInput(this)"></div>
-                        <div><label class="block text-[9.5px] font-bold text-purple-400 uppercase mb-1">Thưởng PC 4L</label><input type="text" id="bonus-pc4" class="bonus-input" value="0" placeholder="Tiền thưởng" onkeyup="handleBonusInput(this)"></div>
+                        <div><label class="block text-[9.5px] font-bold text-purple-400 uppercase mb-1">Thưởng PC 1L</label><input type="text" id="bonus-pc4" class="bonus-input" value="0" placeholder="Tiền thưởng" onkeyup="handleBonusInput(this)"></div>
                     </div>
                 </div>
                 <div class="mt-4 bg-[#070b12] border border-yellow-500/40 rounded-xl p-3 text-center">
@@ -549,9 +554,9 @@
         </div>
     </div>
 
-    <!-- MODAL CHI TIẾT CỬA HÀNG & ĐƠN HÀNG -->
+    <!-- MODAL CHI TIẾT CỬA HÀNG & NHẬP ĐƠN SIÊU TỐC -->
     <div id="store-detail-modal" class="fixed inset-0 z-[210] hidden bg-black/80 flex items-end md:items-center justify-center p-0 md:p-4">
-        <div class="slide-up-modal bg-[#111827] w-full h-[90vh] md:h-auto md:max-h-[90vh] md:max-w-[540px] rounded-t-[28px] md:rounded-[28px] flex flex-col mt-auto md:mt-0 shadow-2xl border border-slate-800">
+        <div class="slide-up-modal bg-[#111827] w-full h-[92vh] md:h-auto md:max-h-[90vh] md:max-w-[540px] rounded-t-[28px] md:rounded-[28px] flex flex-col mt-auto md:mt-0 shadow-2xl border border-slate-800">
             <div class="w-full flex justify-center pt-2.5 pb-1 md:hidden"><div class="w-10 h-1 bg-slate-700 rounded-full"></div></div>
             
             <div class="flex justify-between items-center px-5 py-3.5 border-b border-slate-800 shrink-0">
@@ -566,24 +571,50 @@
             </div>
             
             <div class="flex-1 overflow-y-auto p-5 space-y-5">
-                <!-- FORM TẠO THẺ ĐƠN -->
+                <!-- FORM TẠO THẺ ĐƠN SIÊU TỐC -->
                 <div class="bg-emerald-950/20 p-4 rounded-2xl border border-emerald-500/30 relative">
-                    <label class="flex items-center text-[10.5px] font-extrabold text-emerald-400 uppercase tracking-wider mb-2.5"><i class="fas fa-cart-plus mr-2"></i>Tạo Thẻ Đơn Hàng Mới</label>
-                    <div class="flex flex-row items-center gap-2 mb-3.5">
+                    <div class="flex justify-between items-center mb-2.5">
+                        <label class="flex items-center text-[10.5px] font-extrabold text-emerald-400 uppercase tracking-wider"><i class="fas fa-cart-plus mr-2"></i>Tạo Đơn Hàng (PC 1 Line)</label>
+                        <span class="text-[9.5px] text-slate-400 font-semibold">Nhập tiền &rarr; Chạm số Line</span>
+                    </div>
+
+                    <!-- Hàng 1: Ô tiền + Tổng Line + Xúc Xích + Nút Thêm -->
+                    <div class="flex flex-row items-center gap-2 mb-2.5">
                         <div class="flex-1 bg-[#070b12] border border-emerald-500/40 rounded-xl flex items-center p-2">
                             <i class="fas fa-money-bill-wave text-emerald-500 ml-1.5 mr-2 text-xs"></i>
-                            <input type="text" id="modal-order-value" class="w-full bg-transparent border-none outline-none text-white font-black text-[14px] px-1" placeholder="Giá trị đ..." onkeyup="this.value=formatCurrencyInput(this.value)">
+                            <input type="text" id="modal-order-value" inputmode="numeric" class="w-full !bg-transparent !border-none outline-none text-white font-black text-[14px] px-1" placeholder="Giá trị đ..." onkeyup="this.value=formatCurrencyInput(this.value)" onkeydown="if(event.key==='Enter') addOrderTag()">
                         </div>
                         <div class="w-[4.2rem] bg-[#070b12] border border-purple-500/40 rounded-xl flex flex-col justify-center p-1">
                             <span class="text-[8px] text-purple-400 text-center uppercase font-bold">Tổng L.</span>
-                            <input type="number" id="modal-order-lines" class="w-full bg-transparent border-none outline-none text-white font-black text-center text-[14px] p-0" placeholder="0" min="1">
+                            <input type="number" id="modal-order-lines" inputmode="numeric" class="w-full !bg-transparent !border-none outline-none text-white font-black text-center text-[14px] p-0" value="1" min="1" onkeydown="if(event.key==='Enter') addOrderTag()">
                         </div>
                         <div class="w-[4.2rem] bg-[#070b12] border border-orange-500/40 rounded-xl flex flex-col justify-center p-1">
                             <span class="text-[8px] text-orange-400 text-center uppercase font-bold">X.Xích</span>
-                            <input type="number" id="modal-order-sausage" class="w-full bg-transparent border-none outline-none text-white font-black text-center text-[14px] p-0" placeholder="0" value="0" min="0">
+                            <input type="number" id="modal-order-sausage" inputmode="numeric" class="w-full !bg-transparent !border-none outline-none text-white font-black text-center text-[14px] p-0" placeholder="0" value="0" min="0" onkeydown="if(event.key==='Enter') addOrderTag()">
                         </div>
-                        <button onclick="addOrderTag()" class="bg-emerald-600 text-white font-black rounded-xl px-4 py-2 active:scale-95 h-[44px]"><i class="fas fa-plus"></i></button>
+                        <button type="button" onclick="addOrderTag()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black rounded-xl px-4 py-2 active:scale-95 h-[44px]"><i class="fas fa-plus"></i></button>
                     </div>
+
+                    <!-- Hàng 2: Gợi ý cộng nhanh tiền -->
+                    <div class="flex flex-wrap gap-1.5 mb-2.5">
+                        <button type="button" onclick="quickAddMoney('000')" class="bg-[#070b12] border border-slate-800 hover:border-emerald-500/50 text-emerald-400 text-[11px] font-bold px-2.5 py-1 rounded-lg active:scale-95 transition">.000</button>
+                        <button type="button" onclick="quickAddMoney(100000)" class="bg-[#070b12] border border-slate-800 hover:border-emerald-500/50 text-slate-300 text-[11px] font-bold px-2.5 py-1 rounded-lg active:scale-95 transition">+100k</button>
+                        <button type="button" onclick="quickAddMoney(200000)" class="bg-[#070b12] border border-slate-800 hover:border-emerald-500/50 text-slate-300 text-[11px] font-bold px-2.5 py-1 rounded-lg active:scale-95 transition">+200k</button>
+                        <button type="button" onclick="quickAddMoney(500000)" class="bg-[#070b12] border border-slate-800 hover:border-emerald-500/50 text-slate-300 text-[11px] font-bold px-2.5 py-1 rounded-lg active:scale-95 transition">+500k</button>
+                        <button type="button" onclick="quickAddMoney(1000000)" class="bg-[#070b12] border border-slate-800 hover:border-emerald-500/50 text-slate-300 text-[11px] font-bold px-2.5 py-1 rounded-lg active:scale-95 transition">+1Tr</button>
+                        <button type="button" onclick="document.getElementById('modal-order-value').value=''; document.getElementById('modal-order-value').focus();" class="bg-[#070b12] border border-slate-800 text-slate-500 hover:text-red-400 text-[11px] font-bold px-2 py-1 rounded-lg ml-auto">Xóa tiền</button>
+                    </div>
+
+                    <!-- Hàng 3: Chạm 1 nút số Line -> Tạo đơn ngay -->
+                    <div class="grid grid-cols-6 gap-1.5 mb-3.5">
+                        <button type="button" onclick="quickAddOrderWithLines(1)" class="bg-purple-500/15 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 font-black py-1.5 rounded-lg text-[11px] active:scale-95 transition">+1L</button>
+                        <button type="button" onclick="quickAddOrderWithLines(2)" class="bg-purple-500/15 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 font-black py-1.5 rounded-lg text-[11px] active:scale-95 transition">+2L</button>
+                        <button type="button" onclick="quickAddOrderWithLines(3)" class="bg-purple-500/15 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 font-black py-1.5 rounded-lg text-[11px] active:scale-95 transition">+3L</button>
+                        <button type="button" onclick="quickAddOrderWithLines(4)" class="bg-purple-500/15 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 font-black py-1.5 rounded-lg text-[11px] active:scale-95 transition">+4L</button>
+                        <button type="button" onclick="quickAddOrderWithLines(5)" class="bg-purple-500/15 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 font-black py-1.5 rounded-lg text-[11px] active:scale-95 transition">+5L</button>
+                        <button type="button" onclick="quickAddOrderWithLines(6)" class="bg-purple-500/15 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 font-black py-1.5 rounded-lg text-[11px] active:scale-95 transition">+6L</button>
+                    </div>
+
                     <div id="modal-order-tags" class="flex flex-wrap gap-1.5 mb-3"></div>
                     <div class="pt-3 border-t border-emerald-500/20 flex justify-between items-center">
                         <span class="text-[10px] font-bold text-emerald-400/80 uppercase tracking-wider">Tổng doanh thu quán</span>
@@ -699,7 +730,7 @@
         </div>
     </div>
 
-    <!-- HỆ THỐNG JS V83 (GIỮ NGUYÊN CẤU TRÚC ỔN ĐỊNH TUYỆT ĐỐI CỦA V80/V82) -->
+    <!-- HỆ THỐNG JS V84.1 (CÓ ĐỦ KPI PC 1 LINE & LPPC >= 1 LINE) -->
     <script>
         const tbodyOn = document.getElementById('tbody-on'), tbodyOff = document.getElementById('tbody-off'), tbodyEmpty = document.getElementById('tbody-empty'), scrollArea = document.getElementById('scroll-area');
         
@@ -711,7 +742,6 @@
         let titleClickCount = 0;
         let titleClickTimer = null;
 
-        // Ẩn / Hiện cụm thẻ KPI trên Mobile để mở rộng không gian lướt quán
         window.toggleKpiGrid = function() {
             const grid = document.getElementById('kpi-bento-grid');
             const btn = document.getElementById('btn-toggle-kpi');
@@ -738,6 +768,27 @@
         
         window.autoExpand = function(textarea) { if(!textarea) return; textarea.style.height = 'auto'; textarea.style.height = textarea.scrollHeight + 'px'; }
         window.handleBonusInput = function(input) { input.value = formatCurrencyInput(input.value); calcSalary(); saveTargets(); }
+
+        // Nút cộng nhanh số tiền
+        window.quickAddMoney = function(amountOrZeroStr) {
+            hapticVibrate();
+            const valInput = document.getElementById('modal-order-value');
+            if (amountOrZeroStr === '000') {
+                let raw = valInput.value.replace(/[^0-9]/g, '');
+                if (raw) valInput.value = formatCurrencyInput(raw + '000');
+            } else {
+                let current = getMoneyValue(valInput.value);
+                valInput.value = formatCurrencyInput((current + amountOrZeroStr).toString());
+            }
+            valInput.focus();
+        }
+
+        // Chạm 1 nút số Line -> Tạo thẻ đơn ngay lập tức
+        window.quickAddOrderWithLines = function(linesCount) {
+            const lineInput = document.getElementById('modal-order-lines');
+            if (lineInput) lineInput.value = linesCount;
+            addOrderTag();
+        }
 
         window.handleTitleClick = function() {
             hapticVibrate();
@@ -870,26 +921,35 @@
         }
         window.addEventListener('scroll', handleScroll); document.getElementById('scroll-area').addEventListener('scroll', handleScroll);
 
+        function rebuildOrderLogText() {
+            let noteInput = document.getElementById('modal-detail-order');
+            if (!noteInput) return;
+            let todayStr = new Date().toLocaleDateString('vi-VN', {day:'2-digit', month:'2-digit'});
+            noteInput.value = activeOrders.map(o => {
+                let dStr = o.d || todayStr;
+                let sausageNote = (o.xx && o.xx > 0) ? ` 🌭-${o.xx}` : ``;
+                return `[${dStr}] +${formatCurrencyInput((o.v || 0).toString())}đ (${o.l || 1}L${sausageNote})`;
+            }).join('\n');
+            autoExpand(noteInput);
+        }
+
         window.addOrderTag = function() {
             let valInput = document.getElementById('modal-order-value'); 
             let lineInput = document.getElementById('modal-order-lines'); 
             let sausageInput = document.getElementById('modal-order-sausage'); 
-            let noteInput = document.getElementById('modal-detail-order');
-            let val = getMoneyValue(valInput.value), lines = parseInt(lineInput.value) || 0, sausage = parseInt(sausageInput.value) || 0;
-            if(sausage > lines) { alert("Xúc xích không được lớn hơn Tổng số Line!"); return; }
-            if(val > 0 && lines > 0) {
+            let val = getMoneyValue(valInput.value), lines = parseInt(lineInput.value) || 1, sausage = parseInt(sausageInput.value) || 0;
+            if(sausage >= lines) { alert("Số line Xúc xích phải nhỏ hơn Tổng số Line để đơn còn ít nhất 1 Line hợp lệ!"); return; }
+            if(val > 0 && lines >= 1) {
                 hapticVibrate(); 
                 let today = new Date();
                 let dayNum = today.getDate();
                 let dateStr = today.toLocaleDateString('vi-VN', {day:'2-digit', month:'2-digit'});
                 
                 activeOrders.push({ v: val, l: lines, xx: sausage, d: dateStr, dayNum: dayNum });
-                
-                let sausageNote = sausage > 0 ? ` 🌭-${sausage}` : ``;
-                let newNote = `[${dateStr}] +${formatCurrencyInput(val.toString())}đ (${lines}L${sausageNote})`;
-                noteInput.value = noteInput.value ? noteInput.value + '\n' + newNote : newNote; autoExpand(noteInput);
-                valInput.value = ""; lineInput.value = ""; sausageInput.value = "0"; renderOrderTags();
-            } else { alert("Nhập Giá trị & Tổng Line!"); }
+                rebuildOrderLogText();
+                valInput.value = ""; lineInput.value = "1"; sausageInput.value = "0"; renderOrderTags();
+                valInput.focus();
+            } else { alert("Vui lòng nhập Giá trị đơn hàng!"); valInput.focus(); }
         }
 
         function renderOrderTags() {
@@ -897,16 +957,16 @@
             activeOrders.forEach((order, index) => {
                 totalVal += order.v;
                 let tag = document.createElement('span');
-                let isPc4 = (order.l - (order.xx||0)) >= 4 ? 'border-purple-500/80 text-purple-300' : 'border-emerald-500/50 text-emerald-400';
+                let isPc1 = (order.l - (order.xx||0)) >= 1 ? 'border-purple-500/80 text-purple-300' : 'border-emerald-500/50 text-emerald-400';
                 let xxTag = (order.xx && order.xx > 0) ? ` 🌭-${order.xx}L` : '';
-                tag.className = `bg-[#070b12] px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 border ${isPc4}`;
-                tag.innerHTML = `💰${formatMoneyBadge(order.v)} | 📦${order.l}L${xxTag} <i class="fas fa-times cursor-pointer ml-1 opacity-70" onclick="removeOrderTag(${index})"></i>`;
+                tag.className = `bg-[#070b12] px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 border ${isPc1}`;
+                tag.innerHTML = `💰${formatMoneyBadge(order.v)} | 📦${order.l}L${xxTag} <i class="fas fa-times cursor-pointer ml-1 opacity-70 hover:text-red-400" onclick="removeOrderTag(${index})"></i>`;
                 container.appendChild(tag);
             });
             if(activeOrders.length === 0) { container.innerHTML = `<span class="text-[11px] text-slate-500 font-semibold italic">Chưa có đơn hàng</span>`; }
             document.getElementById('modal-total-money').innerText = formatCurrencyInput(totalVal.toString());
         }
-        window.removeOrderTag = function(index) { hapticVibrate(); activeOrders.splice(index, 1); renderOrderTags(); }
+        window.removeOrderTag = function(index) { hapticVibrate(); activeOrders.splice(index, 1); rebuildOrderLogText(); renderOrderTags(); }
 
         window.clearOrderModal = function() {
             if (isViewingArchive) return;
@@ -1001,7 +1061,7 @@
             hapticVibrate(); const tr = btn.closest('tr'); activeRowForDetail = tr;
             document.getElementById('detail-store-name').innerText = tr.querySelector('.col-name').innerText || "Cửa hàng";
             activeOrders = JSON.parse(tr.querySelector('.val-detail-orders').value || "[]");
-            document.getElementById('modal-order-value').value = ""; document.getElementById('modal-order-lines').value = ""; document.getElementById('modal-order-sausage').value = "0"; renderOrderTags();
+            document.getElementById('modal-order-value').value = ""; document.getElementById('modal-order-lines').value = "1"; document.getElementById('modal-order-sausage').value = "0"; renderOrderTags();
             
             let detOrd = document.getElementById('modal-detail-order'); detOrd.value = tr.querySelector('.val-detail-order').value; autoExpand(detOrd);
             let detExp = document.getElementById('modal-detail-expired'); detExp.value = tr.querySelector('.val-detail-expired').value; autoExpand(detExp);
@@ -1076,7 +1136,7 @@
                 </td>
                 <td class="td-lppc-wrapper md:table-cell justify-between items-center py-2 md:py-3 px-2 text-center cursor-pointer" onclick="openStoreDetails(this)"><span class="mobile-label">LPPC</span><div class="col-lppc-display font-black bg-[#070b12] border border-slate-800 rounded-lg px-2 py-1 min-w-[3.2rem] w-full text-center text-[15px]">0.0</div></td>
                 <td class="td-don-wrapper md:table-cell justify-between items-center py-2 md:py-3 px-2 text-center cursor-pointer" onclick="openStoreDetails(this)"><span class="mobile-label text-teal-400">Đơn</span><div class="col-order-display font-black bg-[#070b12] border border-slate-800 text-white rounded-lg px-2 py-1 min-w-[3.2rem] w-full text-center text-[15px]">0</div></td>
-                <td class="td-pc4-wrapper md:table-cell justify-between items-center py-2 md:py-3 px-2 text-center cursor-pointer" onclick="openStoreDetails(this)"><span class="mobile-label text-purple-400">PC 4L</span><div class="col-pc4-display font-black bg-[#070b12] border border-slate-800 text-white rounded-lg px-2 py-1 min-w-[3.2rem] w-full text-center text-[15px]">0</div></td>
+                <td class="td-pc4-wrapper md:table-cell justify-between items-center py-2 md:py-3 px-2 text-center cursor-pointer" onclick="openStoreDetails(this)"><span class="mobile-label text-purple-400">PC 1L</span><div class="col-pc4-display font-black bg-[#070b12] border border-slate-800 text-white rounded-lg px-2 py-1 min-w-[3.2rem] w-full text-center text-[15px]">0</div></td>
                 <td class="td-xanh md:table-cell justify-between items-center py-2 md:py-3 px-2 text-center bg-transparent"><span class="mobile-label text-green-400">Xanh</span><input type="checkbox" class="col-green custom-checkbox cb-xanh mx-auto" ${dv.green?'checked':''}></td>
                 <td class="td-vang md:table-cell justify-between items-center py-2 md:py-3 px-2 text-center bg-transparent"><span class="mobile-label text-yellow-400">Vàng</span><input type="checkbox" class="col-yellow custom-checkbox cb-vang mx-auto" ${dv.yellow?'checked':''}></td>
             `;
@@ -1133,6 +1193,7 @@
             else btnDetail.className = "btn-detail shrink-0 w-9 h-9 rounded-xl flex items-center justify-center transition bg-[#070b12] border border-slate-800 text-cyan-400 font-bold";
         }
 
+        // CÔNG THỨC THÁNG MỚI: PC 1 LINE (>= 1 LINE) & LPPC TÍNH MỌI ĐƠN >= 1 LINE
         window.calculateKPI = function() {
             let totalCH = 0, rev = 0, aso = 0, green = 0, yellow = 0, pcon = 0, pc4 = 0;
             let globalSumLppcLines = 0, globalCountLppcOrders = 0;
@@ -1145,16 +1206,17 @@
                 if (!ordersStr) return; 
                 
                 let isPlaceholder = isPlaceholderName(name);
-                
                 let orders = JSON.parse(ordersStr.value || "[]");
-                let storeRev = 0, storePc4 = 0, storeLppcLines = 0, storeLppcOrders = 0;
+                let storeRev = 0, storePc1 = 0, storeLppcLines = 0, storeLppcOrders = 0;
                 
                 orders.forEach(o => { 
-                    storeRev += o.v; 
-                    let validL = Math.max(0, o.l - (o.xx || 0)); 
-                    if(validL >= 4) storePc4++; 
-                    storeLppcLines += validL; 
-                    storeLppcOrders++; 
+                    storeRev += (o.v || 0); 
+                    let validL = Math.max(0, (o.l || 0) - (o.xx || 0)); 
+                    if(validL >= 1) {
+                        storePc1++; 
+                        storeLppcLines += validL; 
+                        storeLppcOrders++; 
+                    }
                 });
                 
                 let storeLppcText = storeLppcOrders > 0 ? (storeLppcLines / storeLppcOrders).toFixed(1) : "0.0";
@@ -1167,14 +1229,14 @@
 
                 let pc4Disp = row.querySelector('.col-pc4-display');
                 if(pc4Disp) {
-                    pc4Disp.innerText = storePc4; 
-                    pc4Disp.className = "col-pc4-display font-black bg-[#070b12] border border-slate-800 rounded-lg px-2 py-1 min-w-[3.2rem] w-full text-center text-[15px] " + (storePc4 >= 1 ? "text-purple-400 !border-purple-500/40" : "text-slate-500");
+                    pc4Disp.innerText = storePc1; 
+                    pc4Disp.className = "col-pc4-display font-black bg-[#070b12] border border-slate-800 rounded-lg px-2 py-1 min-w-[3.2rem] w-full text-center text-[15px] " + (storePc1 >= 1 ? "text-purple-400 !border-purple-500/40" : "text-slate-500");
                 }
                 
                 let lppcDiv = row.querySelector('.col-lppc-display'); 
                 if(lppcDiv) {
                     lppcDiv.innerText = storeLppcText; 
-                    lppcDiv.className = "col-lppc-display font-black bg-[#070b12] border border-slate-800 rounded-lg px-2 py-1 min-w-[3.2rem] w-full text-center text-[15px] " + (storeLppcText === "0.0" ? "text-slate-600" : (parseFloat(storeLppcText) >= 5.0 ? "text-cyan-400 !border-cyan-500/40" : (parseFloat(storeLppcText) >= 4.0 ? "text-emerald-400" : "text-red-500 animate-pulse")));
+                    lppcDiv.className = "col-lppc-display font-black bg-[#070b12] border border-slate-800 rounded-lg px-2 py-1 min-w-[3.2rem] w-full text-center text-[15px] " + (storeLppcText === "0.0" ? "text-slate-600" : (parseFloat(storeLppcText) >= 5.0 ? "text-cyan-400 !border-cyan-500/40" : "text-emerald-400"));
                 }
 
                 if (row.style.display === "none" || isPlaceholder) return;
@@ -1185,13 +1247,14 @@
                 if(type && freq[type] && freq[type][rowFreq] !== undefined) freq[type][rowFreq]++;
                 
                 rev += storeRev; 
-                if(type === 'OFF') pc4 += storePc4;
+                if(type === 'OFF') pc4 += storePc1;
                 if(orders.length > 0) { aso++; if(type === 'ON') pcon++; }
                 
                 let greenCb = row.querySelector('.col-green'), yellowCb = row.querySelector('.col-yellow');
                 if(greenCb && greenCb.checked) green++; if(yellowCb && yellowCb.checked) yellow++;
                 
-                if (parseFloat(storeLppcText) >= 4.0) {
+                // LPPC tính toàn bộ đơn từ 1 line trở lên
+                if (storeLppcOrders > 0) {
                     globalSumLppcLines += storeLppcLines; 
                     globalCountLppcOrders += storeLppcOrders; 
                 }
@@ -1290,7 +1353,7 @@
         window.renderTargetBoard = function() {
             let daysInput = document.getElementById('remaining-days-input'); 
             let days = parseInt(daysInput ? daysInput.value : 1) || 1;
-            const tgts = [ {n:'Doanh Thu', t:getMoneyValue(document.getElementById('target-rev-input').value), a:currentKPIs.totalRevenue, c:'#10b981', m:true}, {n:'ASO ALL', t:parseFloat(document.getElementById('target-aso-input').value)||0, a:currentKPIs.countAso, c:'#22d3ee'}, {n:'Trận Xanh', t:parseFloat(document.getElementById('target-green-input').value)||0, a:currentKPIs.countGreen, c:'#4ade80'}, {n:'Trận Vàng', t:parseFloat(document.getElementById('target-yellow-input').value)||0, a:currentKPIs.countYellow, c:'#facc15'}, {n:'PC ON', t:parseFloat(document.getElementById('target-pcon-input').value)||0, a:currentKPIs.countPcOn, c:'#60a5fa'}, {n:'PC 4L (OFF)', t:parseFloat(document.getElementById('target-pc4-input').value)||0, a:currentKPIs.countPc4, c:'#c084fc'} ];
+            const tgts = [ {n:'Doanh Thu', t:getMoneyValue(document.getElementById('target-rev-input').value), a:currentKPIs.totalRevenue, c:'#10b981', m:true}, {n:'ASO ALL', t:parseFloat(document.getElementById('target-aso-input').value)||0, a:currentKPIs.countAso, c:'#22d3ee'}, {n:'Trận Xanh', t:parseFloat(document.getElementById('target-green-input').value)||0, a:currentKPIs.countGreen, c:'#4ade80'}, {n:'Trận Vàng', t:parseFloat(document.getElementById('target-yellow-input').value)||0, a:currentKPIs.countYellow, c:'#facc15'}, {n:'PC ON', t:parseFloat(document.getElementById('target-pcon-input').value)||0, a:currentKPIs.countPcOn, c:'#60a5fa'}, {n:'PC 1L (OFF)', t:parseFloat(document.getElementById('target-pc4-input').value)||0, a:currentKPIs.countPc4, c:'#c084fc'} ];
             let html = '';
             tgts.forEach(i => {
                 let gap = i.t - i.a, rate = Math.ceil(gap/days), tStr = i.m?formatMoneyBadge(i.t):i.t, aStr = i.m?formatMoneyBadge(i.a):i.a, rStr = i.m?formatMoneyBadge(rate):rate, gStr = i.m?formatMoneyBadge(gap):gap;
@@ -1341,13 +1404,13 @@
                 const { db, ref, set } = window.firebaseDb;
                 set(ref(db, 'kpi_history_longpro/arc_' + Date.now()), { name: archiveName, date: new Date().toLocaleString('vi-VN'), data: dataToSave, targets: targets });
             }
-            document.querySelectorAll('tbody tr:not(.group-header)').forEach(row => { if(row.querySelector('.col-green')) row.querySelector('.col-green').checked = false; if(row.querySelector('.col-yellow')) row.querySelector('.col-yellow').checked = false; row.querySelector('.val-detail-orders').value = "[]"; updateBadgesHtml(row); });
+            document.querySelectorAll('tbody tr:not(.group-header)').forEach(row => { if(row.querySelector('.col-green')) row.querySelector('.col-green').checked = false; if(row.querySelector('.col-yellow')) row.querySelector('.col-yellow').checked = false; row.querySelector('.val-detail-orders').value = "[]"; row.querySelector('.val-detail-order').value = ""; updateBadgesHtml(row); });
             closeResetModal(); calculateKPI(); pushToFirebase(); alert(`Đã cất vào tủ với tên: "${archiveName}" và làm mới chu kỳ KPI!`);
         }
 
         window.generateZaloReport = function() {
             let dFilter = document.getElementById('mobile-day-filter').value, route = dFilter==='all'?"TỔNG HỢP":(dFilter==='CN'?"CHỦ NHẬT":"THỨ "+dFilter.replace('T',''));
-            let rep = `📊 BÁO CÁO TUYẾN ${route} - ${new Date().toLocaleDateString('vi-VN')}\n━━━━━━━━━━━━━━━━━━\n💰 Doanh thu: ${formatCurrencyInput(currentKPIs.totalRevenue.toString())}đ\n📦 Tổng Đơn (ASO): ${currentKPIs.countAso}\n🔥 TB LPPC: ${currentKPIs.globalLppc} (>=4.0)\n🟩 T.Xanh: ${currentKPIs.countGreen} | 🟨 T.Vàng: ${currentKPIs.countYellow}\n🟦 PC ON: ${currentKPIs.countPcOn} | 🟪 PC 4L: ${currentKPIs.countPc4}`;
+            let rep = `📊 BÁO CÁO TUYẾN ${route} - ${new Date().toLocaleDateString('vi-VN')}\n━━━━━━━━━━━━━━━━━━\n💰 Doanh thu: ${formatCurrencyInput(currentKPIs.totalRevenue.toString())}đ\n📦 Tổng Đơn (ASO): ${currentKPIs.countAso}\n🔥 TB LPPC: ${currentKPIs.globalLppc} (>=1.0)\n🟩 T.Xanh: ${currentKPIs.countGreen} | 🟨 T.Vàng: ${currentKPIs.countYellow}\n🟦 PC ON: ${currentKPIs.countPcOn} | 🟪 PC 1L: ${currentKPIs.countPc4}`;
             
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(rep).then(() => { alert("Đã chép báo cáo! Hãy mở Zalo và chọn 'Dán'"); }).catch(()=>fallbackCopy(rep));
@@ -1374,7 +1437,7 @@
             let name = row.querySelector('.col-name').innerText.trim();
             if (isPlaceholderName(name)) return -1;
             let orders = JSON.parse(row.querySelector('.val-detail-orders').value || "[]"), score = orders.length > 0 ? 1 : 0; 
-            if (orders.some(o => (o.l - (o.xx||0)) >= 4)) score += 2; 
+            if (orders.some(o => (o.l - (o.xx||0)) >= 1)) score += 2; 
             if (row.querySelector('.col-green').checked) score += 1; 
             if (row.querySelector('.col-yellow').checked) score += 0.5; 
             return score; 
@@ -1536,7 +1599,7 @@
                     totalAllAmount += (o.v || 0);
                     globalEntryCounter++;
 
-                    let assignedDay = 5; 
+                    let assignedDay = new Date().getDate(); 
                     if (o.dayNum) {
                         assignedDay = parseInt(o.dayNum, 10);
                     } else if (o.d) {
